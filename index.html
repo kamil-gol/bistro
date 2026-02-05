@@ -6,11 +6,86 @@
     <meta name="description" content="Bistro Pętla - wyjątkowe dania, napoje i lody w Chorzowie. Zamów online lub odwiedź nas przy ul. Odrodzenia 36.">
     <meta name="keywords" content="bistro, restauracja, Chorzów, jedzenie, napoje, lody, obiady domowe">
     <meta name="author" content="Bistro Pętla">
+    <meta name="theme-color" content="#d4af37">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Bistro Pętla">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kamil-gol.github.io/bistro/">
+    <meta property="og:title" content="Bistro Pętla | Wyjątkowe smaki w sercu Chorzowa">
+    <meta property="og:description" content="Odkryj tradycyjną polską kuchnię w nowoczesnym wydaniu. Jedzenie, napoje, lody i torty na zamówienie.">
+    <meta property="og:image" content="https://kamil-gol.github.io/bistro/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kamil-gol.github.io/bistro/">
+    <meta property="twitter:title" content="Bistro Pętla | Wyjątkowe smaki w sercu Chorzowa">
+    <meta property="twitter:description" content="Odkryj tradycyjną polską kuchnię w nowoczesnym wydaniu.">
+    
     <title>Bistro Pętla | Wyjątkowe smaki w sercu Chorzowa</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Bistro Pętla",
+      "image": "https://kamil-gol.github.io/bistro/logo.png",
+      "@id": "",
+      "url": "https://kamil-gol.github.io/bistro/",
+      "telephone": "+48660530211",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ul. Odrodzenia 36",
+        "addressLocality": "Chorzów",
+        "postalCode": "41-506",
+        "addressCountry": "PL"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 50.30,
+        "longitude": 18.95
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "11:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "12:00",
+          "closes": "21:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "12:00",
+          "closes": "19:00"
+        }
+      ],
+      "servesCuisine": "Polish",
+      "menu": "https://kamil-gol.github.io/bistro/#menu",
+      "acceptsReservations": "True"
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
@@ -35,8 +110,9 @@
                 <li><a href="#about" class="nav-link">O Nas</a></li>
                 <li><a href="#menu" class="nav-link">Menu</a></li>
                 <li><a href="#gallery" class="nav-link">Galeria</a></li>
+                <li><a href="/blog.html" class="nav-link">Aktualności</a></li>
                 <li><a href="#contact" class="nav-link">Kontakt</a></li>
-                <li><a href="#order" class="btn-primary-nav">Zamów Online</a></li>
+                <li><a href="#order" class="btn-primary-nav" onclick="trackOrderClick('navigation')">Zamów Online</a></li>
             </ul>
         </div>
     </nav>
@@ -54,8 +130,8 @@
                 </h1>
                 <p class="hero-subtitle fade-in-up delay-1">Odkryj wyjątkowe połączenie polskich smaków i światowej kuchni w sercu Chorzowa</p>
                 <div class="hero-buttons fade-in-up delay-2">
-                    <a href="#menu" class="btn btn-primary">Zobacz Menu</a>
-                    <a href="#contact" class="btn btn-secondary">Zarezerwuj Stolik</a>
+                    <a href="#menu" class="btn btn-primary" onclick="trackEvent('view_menu_hero', {'event_category': 'engagement'})">Zobacz Menu</a>
+                    <a href="#contact" class="btn btn-secondary" onclick="trackEvent('contact_click_hero', {'event_category': 'engagement'})">Zarezerwuj Stolik</a>
                 </div>
             </div>
         </div>
@@ -118,11 +194,11 @@
             </div>
             
             <div class="menu-tabs">
-                <button class="tab-btn active" data-category="zupy">Zupy</button>
-                <button class="tab-btn" data-category="dania-glowne">Dania Główne</button>
-                <button class="tab-btn" data-category="przystawki">Przystawki</button>
-                <button class="tab-btn" data-category="desery">Desery</button>
-                <button class="tab-btn" data-category="napoje">Napoje & Lody</button>
+                <button class="tab-btn active" data-category="zupy" onclick="trackMenuView('zupy')">Zupy</button>
+                <button class="tab-btn" data-category="dania-glowne" onclick="trackMenuView('dania-glowne')">Dania Główne</button>
+                <button class="tab-btn" data-category="przystawki" onclick="trackMenuView('przystawki')">Przystawki</button>
+                <button class="tab-btn" data-category="desery" onclick="trackMenuView('desery')">Desery</button>
+                <button class="tab-btn" data-category="napoje" onclick="trackMenuView('napoje')">Napoje & Lody</button>
             </div>
 
             <div class="menu-content">
@@ -380,13 +456,13 @@
                 <h2>Zamów z Dostawą</h2>
                 <p>Ulubione smaki Bistro Pętla teraz dostępne również z dostawą do domu</p>
                 <div class="delivery-buttons">
-                    <a href="https://www.ubereats.com/pl/store/bistro-petla/72y741LQXHi_PMXkalXJtg" target="_blank" rel="noopener" class="delivery-btn uber">
+                    <a href="https://www.ubereats.com/pl/store/bistro-petla/72y741LQXHi_PMXkalXJtg" target="_blank" rel="noopener" class="delivery-btn uber" onclick="trackOrderClick('uber_eats')">
                         <svg viewBox="0 0 24 24" width="24" height="24">
                             <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z"/>
                         </svg>
                         <span>Uber Eats</span>
                     </a>
-                    <a href="https://www.pyszne.pl/menu/bistro-petla" target="_blank" rel="noopener" class="delivery-btn pyszne">
+                    <a href="https://www.pyszne.pl/menu/bistro-petla" target="_blank" rel="noopener" class="delivery-btn pyszne" onclick="trackOrderClick('pyszne_pl')">
                         <svg viewBox="0 0 24 24" width="24" height="24">
                             <path fill="currentColor" d="M18.06,23H5.94C5.28,23 4.74,22.46 4.74,21.8L3.67,5.68C3.64,5.32 3.74,4.96 3.95,4.67C4.17,4.38 4.5,4.2 4.86,4.17L19.14,4.17C19.5,4.2 19.83,4.38 20.05,4.67C20.26,4.96 20.36,5.32 20.33,5.68L19.26,21.8C19.26,22.46 18.72,23 18.06,23M6.09,21H17.91L18.84,6.17L5.16,6.17L6.09,21M12,9A2,2 0 0,1 14,11A2,2 0 0,1 12,13A2,2 0 0,1 10,11A2,2 0 0,1 12,9Z"/>
                         </svg>
@@ -423,7 +499,7 @@
                             </svg>
                         </div>
                         <h3>Telefon</h3>
-                        <p><a href="tel:+48660530211">+48 660 530 211</a></p>
+                        <p><a href="tel:+48660530211" onclick="trackPhoneClick()">+48 660 530 211</a></p>
                     </div>
                     <div class="info-card">
                         <div class="info-icon">
@@ -476,6 +552,7 @@
                         <li><a href="#home">Start</a></li>
                         <li><a href="#about">O Nas</a></li>
                         <li><a href="#menu">Menu</a></li>
+                        <li><a href="/blog.html">Aktualności</a></li>
                         <li><a href="#contact">Kontakt</a></li>
                     </ul>
                 </div>
@@ -494,6 +571,24 @@
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
+    <script src="cookie-consent.js"></script>
+    <script src="analytics.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
