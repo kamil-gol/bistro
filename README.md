@@ -10,7 +10,11 @@ This is an enterprise-grade, world-class website featuring:
 - 🎨 **Modern UI/UX** with beautiful gradients and interactive elements
 - ⚡ **Performance-optimized** code
 - ♿ **Accessibility-first** approach
-- 🎯 **SEO-friendly** structure
+- 🔍 **SEO-friendly** structure
+- 🍪 **GDPR-compliant** Cookie Consent
+- 📰 **News/Blog section**
+- 🖼️ **Image optimization** with WebP support
+- 🐳 **Docker ready** with Nginx
 
 ## 🏢 About Bistro Pętla
 
@@ -20,24 +24,20 @@ This is an enterprise-grade, world-class website featuring:
 
 ## 🚀 Features
 
-### Navigation
-- Fixed navigation bar with smooth scroll
-- Mobile-responsive hamburger menu
-- Active link highlighting based on scroll position
+### Pages
+1. **Homepage (index.html)** - Main landing page with all sections
+2. **News/Blog (news.html)** - Latest news, promotions, events
+3. **Privacy Policy (privacy.html)** - Complete GDPR-compliant policy
 
 ### Sections
-1. **Hero Section** - Eye-catching animated gradient background with call-to-action buttons
-2. **About Section** - Three feature cards showcasing the bistro's values
-3. **Menu Section** - Tabbed menu interface with categories:
-   - Zupy (Soups)
-   - Dania Główne (Main Dishes)
-   - Przystawki (Appetizers)
-   - Desery (Desserts)
-   - Napoje & Lody (Beverages & Ice Cream)
-4. **Gallery Section** - Interactive image gallery with hover effects
-5. **Order Section** - Direct links to Uber Eats and Pyszne.pl delivery platforms
-6. **Contact Section** - Complete contact information with embedded Google Maps
-7. **Footer** - Comprehensive footer with quick links and contact details
+1. **Hero Section** - Eye-catching animated gradient background
+2. **About Section** - Three feature cards showcasing values
+3. **Menu Section** - Tabbed menu with 5 categories
+4. **Gallery Section** - Interactive image gallery
+5. **Order Section** - Direct links to Uber Eats and Pyszne.pl
+6. **Contact Section** - Complete contact info with Google Maps
+7. **News Section** - Blog with articles, dates, categories
+8. **Footer** - Quick links, contact, cookie settings
 
 ### Technical Highlights
 
@@ -45,7 +45,7 @@ This is an enterprise-grade, world-class website featuring:
 - Semantic markup
 - Proper meta tags for SEO
 - Accessible ARIA labels
-- Optimized structure
+- WebP image support with fallbacks
 
 #### CSS3
 - CSS Custom Properties (variables)
@@ -53,21 +53,125 @@ This is an enterprise-grade, world-class website featuring:
 - Advanced animations and transitions
 - Smooth gradient effects
 - Mobile-first responsive design
-- Optimized for different screen sizes
 
 #### JavaScript (Vanilla)
+- Cookie Consent Manager (GDPR compliant)
 - Smooth scroll navigation
-- Intersection Observer API for scroll animations
-- Mobile menu toggle functionality
+- Intersection Observer for animations
+- Mobile menu toggle
 - Tab-based menu system
 - Parallax effects
 - Performance-optimized with debouncing
-- Keyboard navigation support
-- Focus management for accessibility
+
+#### Docker
+- Nginx web server
+- Alpine Linux (minimal footprint)
+- Health checks
+- Auto-restart
+- Production-ready configuration
+
+## 🐳 Docker Deployment
+
+### Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/kamil-gol/bistro.git
+cd bistro
+
+# Start with Docker Compose
+docker-compose up -d
+
+# Check status
+docker-compose ps
+
+# View logs
+docker-compose logs -f
+```
+
+**Access:** http://localhost:8080
+
+### Docker Commands
+
+```bash
+# Stop
+docker-compose stop
+
+# Restart
+docker-compose restart
+
+# Rebuild
+docker-compose up -d --build
+
+# Remove
+docker-compose down
+```
+
+See [DOCKER_README.md](DOCKER_README.md) for detailed Docker documentation.
+
+## 📁 Project Structure
+
+```
+bistro/
+├── index.html              # Main page
+├── news.html               # News/Blog page
+├── privacy.html            # Privacy Policy
+├── styles.css              # Main styles
+├── cookieconsent.css       # Cookie banner styles
+├── script.js               # Main JavaScript
+├── cookieconsent.js        # Cookie Consent Manager
+├── Dockerfile              # Docker configuration
+├── docker-compose.yml      # Docker Compose config
+├── nginx.conf              # Nginx configuration
+├── images/                 # Image assets
+│   ├── dishes/            # Food photos
+│   ├── gallery/           # Gallery images
+│   ├── news/              # Blog images
+│   └── optimized/         # WebP optimized versions
+├── README.md               # This file
+├── DOCKER_README.md        # Docker guide
+└── SPRINT1_GUIDE.md        # Sprint 1 implementation guide
+```
+
+## 🎯 Sprint Status
+
+### ✅ Sprint 3: GDPR & Cookie Consent - COMPLETED
+- [x] Cookie Consent banner
+- [x] Privacy Policy page
+- [x] GDPR compliance
+- [x] Cookie management system
+
+**Issue:** [#3](https://github.com/kamil-gol/bistro/issues/3) ✅ Closed
+
+### 🟡 Sprint 1: Content & Media - IN PROGRESS (60%)
+- [x] News/Blog section structure
+- [x] Image optimization guide
+- [x] Lazy loading implementation
+- [ ] Professional food photography (15+ photos)
+- [ ] WebP conversion
+- [ ] Update gallery with real images
+
+**Issue:** [#1](https://github.com/kamil-gol/bistro/issues/1) 🟡 Open  
+**Guide:** [SPRINT1_GUIDE.md](SPRINT1_GUIDE.md)
+
+### 📅 Sprint 2: Analytics & Tracking - TODO
+**Issue:** [#2](https://github.com/kamil-gol/bistro/issues/2) ⏳ Pending
+
+### 📅 Sprint 4: Progressive Web App - TODO
+**Issue:** [#4](https://github.com/kamil-gol/bistro/issues/4) ⏳ Pending
+
+## 🖼️ Images Guide
+
+See [images/README.md](images/README.md) for complete image optimization guide including:
+- Technical requirements
+- Optimization tools
+- Naming conventions
+- Photography guidelines
+- Implementation examples
 
 ## 📱 Responsive Design
 
-The website is fully responsive and optimized for:
+Fully responsive and optimized for:
 - 📱 Mobile devices (320px - 768px)
 - 📱 Tablets (768px - 1024px)
 - 💻 Desktops (1024px+)
@@ -81,101 +185,25 @@ The website is fully responsive and optimized for:
 - Text Dark: `#1a1a1a`
 - Text Light: `#666666`
 - Background Light: `#f8f9fa`
-- White: `#ffffff`
 
 ### Typography
 - Headings: **Playfair Display** (Serif)
 - Body: **Inter** (Sans-serif)
 
-### Animations
-- Smooth fade-in effects
-- Hover transformations
-- Gradient animations
-- Parallax scrolling
-- Tab transitions
+## 🔒 GDPR Compliance
 
-## 🛠️ Installation & Usage
+### Cookie Consent Features
+- ✅ Banner with accept/decline/settings
+- ✅ Granular consent (necessary, analytics, marketing)
+- ✅ Privacy Policy page
+- ✅ Easy preference management
+- ✅ 12-month consent validity
+- ✅ GA4 blocking before consent
 
-### Local Development
-
-1. Clone the repository:
-```bash
-git clone https://github.com/kamil-gol/bistro.git
-cd bistro
-```
-
-2. Open `index.html` in your browser:
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx http-server
-
-# Or simply open the file
-open index.html
-```
-
-3. The website will be available at `http://localhost:8000`
-
-### Deployment
-
-This website can be deployed to:
-- **GitHub Pages** (recommended for this repo)
-- **Netlify**
-- **Vercel**
-- Any static hosting service
-
-#### GitHub Pages Deployment
-
-1. Go to repository Settings
-2. Navigate to "Pages" section
-3. Select "main" branch as source
-4. Click "Save"
-5. Your site will be live at `https://kamil-gol.github.io/bistro/`
-
-## 📂 File Structure
-
-```
-bistro/
-│
-├── index.html          # Main HTML file
-├── styles.css          # All CSS styles
-├── script.js           # JavaScript functionality
-└── README.md           # Documentation (this file)
-```
-
-## 🔧 Customization
-
-### Changing Colors
-Edit CSS custom properties in `styles.css`:
-
-```css
-:root {
-    --primary-color: #d4af37;  /* Change primary color */
-    --secondary-color: #2c3e50; /* Change secondary color */
-    /* ... */
-}
-```
-
-### Adding Menu Items
-Add new menu items in the appropriate category in `index.html`:
-
-```html
-<div class="menu-item">
-    <div class="menu-item-header">
-        <h3>Dish Name</h3>
-        <span class="price">XX,XX zł</span>
-    </div>
-    <p class="menu-description">Description here</p>
-</div>
-```
-
-### Modifying Content
-All content can be easily modified by editing the HTML file. Look for:
-- Contact information in the `#contact` section
-- Menu items in the `#menu` section
-- About text in the `#about` section
+### Cookies Used
+1. **Necessary:** bistro_petla_cookie_consent (365 days)
+2. **Analytics:** Google Analytics (if consented)
+3. **Marketing:** Facebook Pixel, Google Ads (if consented)
 
 ## 🌐 Browser Support
 
@@ -189,9 +217,11 @@ All content can be easily modified by editing the HTML file. Look for:
 
 - Optimized CSS with minimal redundancy
 - Vanilla JavaScript (no heavy frameworks)
-- Lazy loading for images (can be added)
+- Lazy loading for images
+- WebP format with JPG fallback
 - Debounced scroll events
-- Efficient animations
+- Nginx with Gzip compression
+- Target: < 3s page load time
 
 ## ♿ Accessibility
 
@@ -206,18 +236,58 @@ All content can be easily modified by editing the HTML file. Look for:
 
 - Proper meta tags
 - Semantic HTML structure
-- Alt text for images (when added)
+- Alt text for images
 - Fast loading times
 - Mobile-friendly design
+- Schema.org markup ready
+
+## 🛠️ Development
+
+### Local Setup (without Docker)
+
+```bash
+# Clone repository
+git clone https://github.com/kamil-gol/bistro.git
+cd bistro
+
+# Option 1: Python server
+python -m http.server 8000
+
+# Option 2: Node.js server
+npx http-server
+
+# Option 3: PHP server
+php -S localhost:8000
+```
+
+Access: http://localhost:8000
+
+### Production Deployment
+
+#### GitHub Pages
+1. Go to repository Settings
+2. Navigate to "Pages" section
+3. Select "main" branch as source
+4. Save
+5. Site live at: `https://kamil-gol.github.io/bistro/`
+
+#### VPS/Cloud (Docker)
+1. Install Docker & Docker Compose
+2. Clone repository
+3. Run `docker-compose up -d`
+4. Configure reverse proxy for SSL
+5. Set up domain
+
+See [DOCKER_README.md](DOCKER_README.md) for detailed deployment guide.
 
 ## 🤝 Contributing
 
-This is a client project, but suggestions are welcome! Please:
+This is a client project. For suggestions:
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
 ## 📝 License
 
@@ -235,10 +305,17 @@ Facebook: [Bistro Pętla](https://www.facebook.com/p/Bistro-Pętla-6155629935047
 
 - Google Fonts for typography
 - Material Design Icons for SVG icons
-- The Bistro Pętla team for their trust and collaboration
+- The Bistro Pętla team for their trust
+
+## 📊 Project Timeline
+
+- **Feb 5, 2026:** Initial setup, Docker configuration
+- **Feb 5, 2026:** Sprint 3 completed (GDPR)
+- **Feb 5, 2026:** Sprint 1 started (Images & News) - 60% complete
+- **Target:** Sprint 1 completion in 1-2 weeks
 
 ---
 
 **Built with ❤️ and ☕ for Bistro Pętla**
 
-*Last updated: February 2026*
+*Last updated: February 5, 2026, 22:00 CET*

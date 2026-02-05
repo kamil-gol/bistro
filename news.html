@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aktualności z Bistro Pętla - nowe dania, promocje, wydarzenia specjalne w Chorzowie">
+    <meta name="keywords" content="bistro, aktualnosci, promocje, nowe dania, wydarzenia, Chorzów">
+    <title>Aktualności | Bistro Pętla</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cookieconsent.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .news-page {
+            padding: 8rem 0 4rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .news-hero {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .news-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+        
+        .news-hero p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .news-card {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+        
+        .news-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+        
+        .news-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #d4af37;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .news-content {
+            padding: 2rem;
+        }
+        
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .news-category {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .news-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .news-excerpt {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .news-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #d4af37;
+            font-weight: 600;
+            text-decoration: none;
+            transition: gap 0.3s ease;
+        }
+        
+        .news-read-more:hover {
+            gap: 1rem;
+        }
+        
+        .news-read-more svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .news-read-more:hover svg {
+            transform: translateX(5px);
+        }
+        
+        /* Featured News */
+        .featured-news {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+            border: 2px solid #d4af37;
+        }
+        
+        .featured-news .news-image {
+            height: 100%;
+            min-height: 400px;
+        }
+        
+        .featured-news .news-content {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-news .news-title {
+            font-size: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-news {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-news .news-image {
+                min-height: 250px;
+            }
+            
+            .featured-news .news-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <svg class="logo-icon" viewBox="0 0 50 50" width="40" height="40">
+                        <circle cx="25" cy="25" r="20" fill="none" stroke="#d4af37" stroke-width="2"/>
+                        <path d="M 15 25 Q 25 15, 35 25 Q 25 35, 15 25" fill="#d4af37"/>
+                    </svg>
+                    <span class="logo-text">Bistro Pętla</span>
+                </a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Start</a></li>
+                <li><a href="index.html#about" class="nav-link">O Nas</a></li>
+                <li><a href="index.html#menu" class="nav-link">Menu</a></li>
+                <li><a href="news.html" class="nav-link">Aktualności</a></li>
+                <li><a href="index.html#contact" class="nav-link">Kontakt</a></li>
+                <li><a href="index.html#order" class="btn-primary-nav">Zamów Online</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- News Page Content -->
+    <div class="news-page">
+        <div class="container">
+            <div class="news-hero">
+                <h1>📰 Aktualności</h1>
+                <p>Najnowsze informacje, promocje i wydarzenia z Bistro Pętla</p>
+            </div>
+
+            <div class="news-grid">
+                <!-- Featured News -->
+                <article class="news-card featured-news">
+                    <div class="news-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <span class="news-badge">Nowość</span>
+                        <!-- Placeholder for real image -->
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                            🍰
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                                </svg>
+                                5 lutego 2026
+                            </span>
+                            <span class="news-category">Menu</span>
+                        </div>
+                        <h2 class="news-title">Nowe Desery w Menu - Sezon Wiosenny 2026</h2>
+                        <p class="news-excerpt">
+                            Z wielką przyjemnością ogłaszamy rozszerzenie naszej karty deserów! Od dzisiaj dostępne są nowe, wiosenne kreacje: Tort truskawkowy z mascarpone, Lemon tart z bezami oraz Czekoladowa lawa z sosem malinowym. Każdy deser przygotowywany jest świeżo z najlepszych składników.
+                        </p>
+                        <a href="#" class="news-read-more">
+                            Czytaj więcej
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Regular News Cards -->
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                            🎉
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                                </svg>
+                                1 lutego 2026
+                            </span>
+                            <span class="news-category">Promocja</span>
+                        </div>
+                        <h2 class="news-title">Walentynkowa Promocja - Kolacja dla Dwojga</h2>
+                        <p class="news-excerpt">
+                            Z okazji Walentynek przygotowaliśmy specjalną ofertę dla zakochanych par! Romantyczna kolacja dla dwojga w cenie 149 zł. W zestawie: przystawka, danie główne, deser i lampka wina. Rezerwacje już dostępne!
+                        </p>
+                        <a href="#" class="news-read-more">
+                            Czytaj więcej
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                            ☕
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                                </svg>
+                                28 stycznia 2026
+                            </span>
+                            <span class="news-category">Napoje</span>
+                        </div>
+                        <h2 class="news-title">Nowa Karta Kaw Speciality</h2>
+                        <p class="news-excerpt">
+                            Miłośnicy prawdziwej kawy ucieszą się! Wprowadziliśmy nową kartę kaw speciality z ziaren świeżo palonych w lokalnej palarn. Dostępne metody parzenia: AeroPress, Chemex, V60. Zapraszamy na degustację!
+                        </p>
+                        <a href="#" class="news-read-more">
+                            Czytaj więcej
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                            🕒
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                                </svg>
+                                20 stycznia 2026
+                            </span>
+                            <span class="news-category">Ogłoszenie</span>
+                        </div>
+                        <h2 class="news-title">Nowe Godziny Otwarcia - Więcej Czasu dla Was!</h2>
+                        <p class="news-excerpt">
+                            Od lutego przedluzyliśmy godziny otwarcia! Teraz jesteśmy otwarci: Pn-Pt: 11:00-20:00, Sobota: 12:00-21:00, Niedziela: 12:00-19:00. Więcej czasu na ulubione smaki!
+                        </p>
+                        <a href="#" class="news-read-more">
+                            Czytaj więcej
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                            🍨
+                        </div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-date">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                    <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                                </svg>
+                                15 stycznia 2026
+                            </span>
+                            <span class="news-category">Sezonowo</span>
+                        </div>
+                        <h2 class="news-title">Lody Domowe - Nowe Smaki Już Dostępne</h2>
+                        <p class="news-excerpt">
+                            Nasze rzemieślnicze lody w nowych, wyjątkowych smakach! Spróbujcie pistacji z solonym karmelem, lawendy z miodem lub słonego orzecha. Każda gałka to prawdziwa uczta dla podniebienia!
+                        </p>
+                        <a href="#" class="news-read-more">
+                            Czytaj więcej
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <svg class="logo-icon" viewBox="0 0 50 50" width="50" height="50">
+                        <circle cx="25" cy="25" r="20" fill="none" stroke="#d4af37" stroke-width="2"/>
+                        <path d="M 15 25 Q 25 15, 35 25 Q 25 35, 15 25" fill="#d4af37"/>
+                    </svg>
+                    <h3>Bistro Pętla</h3>
+                    <p>Smak domowej tradycji w sercu Chorzowa</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Szybkie linki</h4>
+                    <ul>
+                        <li><a href="index.html">Start</a></li>
+                        <li><a href="index.html#about">O Nas</a></li>
+                        <li><a href="index.html#menu">Menu</a></li>
+                        <li><a href="news.html">Aktualności</a></li>
+                        <li><a href="index.html#contact">Kontakt</a></li>
+                        <li><a href="privacy.html">Polityka Prywatności</a></li>
+                        <li><a href="#" class="cookie-settings-link" id="cookieSettingsLink">Ustawienia Cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li>ul. Odrodzenia 36</li>
+                        <li>41-506 Chorzów</li>
+                        <li>Tel: +48 660 530 211</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bistro Pętla. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner (same as index.html) -->
+    <div id="cookieConsent" class="cc-banner">
+        <div class="cc-container">
+            <div class="cc-content">
+                <h3 class="cc-title">🍪 Ta strona używa cookies</h3>
+                <p class="cc-message">
+                    Używamy plików cookies, aby zapewnić najlepsze doświadczenia na naszej stronie. 
+                    Więcej informacji znajdziesz w <a href="privacy.html">Polityce Prywatności</a>.
+                </p>
+            </div>
+            <div class="cc-buttons">
+                <button id="acceptCookies" class="cc-btn cc-btn-accept">Akceptuj wszystkie</button>
+                <button id="declineCookies" class="cc-btn cc-btn-decline">Odrzuć</button>
+                <button id="cookieSettings" class="cc-btn cc-btn-settings">Ustawienia</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div id="cookieModal" class="cc-modal">
+        <div class="cc-modal-content">
+            <div class="cc-modal-header">
+                <h2 class="cc-modal-title">Ustawienia Cookies</h2>
+                <button id="closeModal" class="cc-modal-close" aria-label="Zamknij">&times;</button>
+            </div>
+            <div class="cc-modal-body">
+                <div class="cc-category">
+                    <div class="cc-category-header">
+                        <h3 class="cc-category-title">Niezbędne <span class="cc-category-required">Wymagane</span></h3>
+                        <label class="cc-toggle">
+                            <input type="checkbox" checked disabled>
+                            <span class="cc-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p class="cc-category-description">
+                        Te pliki cookies są niezbędne do prawidłowego działania strony.
+                    </p>
+                </div>
+                <div class="cc-category">
+                    <div class="cc-category-header">
+                        <h3 class="cc-category-title">Analityczne</h3>
+                        <label class="cc-toggle">
+                            <input type="checkbox" id="analyticsToggle">
+                            <span class="cc-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p class="cc-category-description">
+                        Pomagają nam analizować ruch na stronie.
+                    </p>
+                </div>
+                <div class="cc-category">
+                    <div class="cc-category-header">
+                        <h3 class="cc-category-title">Marketingowe</h3>
+                        <label class="cc-toggle">
+                            <input type="checkbox" id="marketingToggle">
+                            <span class="cc-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p class="cc-category-description">
+                        Służą do wyświetlania spersonalizowanych reklam.
+                    </p>
+                </div>
+            </div>
+            <div class="cc-modal-footer">
+                <button id="savePreferences" class="cc-btn cc-btn-accept">Zapisz ustawienia</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="cookieconsent.js"></script>
+</body>
+</html>
