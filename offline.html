@@ -12,26 +12,30 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            color: #fff;
         }
 
         .offline-container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 600px;
+            width: 100%;
             text-align: center;
-            max-width: 500px;
-            animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease-out;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -43,12 +47,11 @@
             width: 120px;
             height: 120px;
             margin: 0 auto 30px;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(10px);
             animation: pulse 2s ease-in-out infinite;
         }
 
@@ -64,78 +67,134 @@
         .offline-icon svg {
             width: 60px;
             height: 60px;
-            fill: #fff;
+            fill: white;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #1a1a1a;
             margin-bottom: 20px;
-            font-weight: 700;
         }
 
         p {
-            font-size: 1.1rem;
+            font-size: 18px;
+            color: #666;
             line-height: 1.6;
             margin-bottom: 30px;
-            opacity: 0.9;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
+        .cached-pages {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .cached-pages h2 {
+            font-size: 20px;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .cached-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cached-links a {
+            display: block;
+            padding: 15px 20px;
+            background: white;
+            color: #667eea;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-weight: 500;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            font-size: 1rem;
+            border: 2px solid transparent;
         }
 
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
+        .cached-links a:hover {
+            background: #667eea;
+            color: white;
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
-        .contact-info {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .contact-info h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        .contact-info p {
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-
-        .contact-info a {
-            color: #fff;
+        .retry-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            transition: border-color 0.3s ease;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .contact-info a:hover {
-            border-bottom-color: #fff;
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .connection-status {
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .connection-status.online {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .connection-status.offline {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .tips {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tips h3 {
+            font-size: 16px;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            text-align: left;
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
         }
 
         @media (max-width: 768px) {
+            .offline-container {
+                padding: 40px 30px;
+            }
+
             h1 {
-                font-size: 2rem;
+                font-size: 28px;
             }
 
             p {
-                font-size: 1rem;
+                font-size: 16px;
             }
 
             .offline-icon {
@@ -154,52 +213,72 @@
     <div class="offline-container">
         <div class="offline-icon">
             <svg viewBox="0 0 24 24">
-                <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M13,17H11V15H13V17M13,13H11V7H13V13Z"/>
+                <path d="M23.64,7C23.8,6.66 23.73,6.24 23.45,5.97L18.03,0.55C17.76,0.27 17.34,0.2 17,0.36C16.66,0.5 16.44,0.84 16.44,1.22V4.56C12.5,4.69 8.94,6.5 6.67,9.5L8.28,11.11C10.16,8.67 13.07,7.16 16.44,7.03V10.78C16.44,11.16 16.66,11.5 17,11.64C17.34,11.8 17.76,11.73 18.03,11.45L23.45,6.03C23.73,5.76 23.8,5.34 23.64,5M1,8.82L3.41,11.23C2.5,13.05 2,15.08 2,17.22C2,17.6 2.24,17.94 2.58,18.08C2.92,18.24 3.34,18.17 3.61,17.89L9.03,12.47C9.31,12.19 9.38,11.77 9.24,11.43C9.1,11.09 8.76,10.87 8.38,10.87H4.63C5.18,9.54 6,8.35 7.03,7.36L5.42,5.75C3.73,7.43 2.5,9.58 2.03,11.96L1,10.93C0.72,10.65 0.3,10.58 0,10.72C-0.36,10.86 -0.58,11.2 -0.58,11.58V17C-0.58,17.38 -0.36,17.72 0,17.86C0.3,18 0.72,17.95 1,17.67L3.5,15.17C3.94,16.5 4.13,17.91 4.13,19.33H6.13C6.13,17.36 5.79,15.43 5.13,13.63L8.91,9.85C10.27,11.21 11.13,12.97 11.35,14.87H13.37C13.13,12.5 12.08,10.28 10.5,8.5L12.11,6.89C14.03,8.81 15.13,11.35 15.13,14H17.13C17.13,11.03 15.94,8.24 13.87,6.17L15.5,4.54C18.24,7.28 20,11.03 20,15H22C22,10.42 20.04,6.24 16.89,3.09L18.5,1.5C22.24,5.24 24.58,10.42 24.58,16C24.58,16.38 24.36,16.72 24,16.86C23.66,17 23.24,16.95 23,16.67L20.5,14.17C20.04,15.5 19.85,16.91 19.85,18.33H17.85C17.85,16.36 18.19,14.43 18.85,12.63L15.07,8.85C13.71,10.21 12.85,11.97 12.63,13.87H10.61C10.85,11.5 11.9,9.28 13.5,7.5L11.89,5.89C9.97,7.81 8.87,10.35 8.87,13H6.87C6.87,10.03 8.06,7.24 10.13,5.17L8.5,3.54C4.76,7.28 2.42,12.46 2.42,18C2.42,18.38 2.64,18.72 3,18.86C3.34,19 3.76,18.95 4,18.67L6.5,16.17C6.96,17.5 7.15,18.91 7.15,20.33H9.15C9.15,18.36 8.81,16.43 8.15,14.63L11.93,10.85C13.29,12.21 14.15,13.97 14.37,15.87H16.39C16.15,13.5 15.1,11.28 13.5,9.5L15.11,7.89C17.03,9.81 18.13,12.35 18.13,15H20.13C20.13,12.03 18.94,9.24 16.87,7.17L18.5,5.54C22.24,9.28 24.58,14.46 24.58,20H22.58C22.58,14.89 20.5,10.24 17.13,6.87L15.5,8.5C18.24,11.24 20,15 20,19H18C18,15.46 16.45,12.24 13.93,9.93L12.33,11.53C14.39,13.59 15.58,16.38 15.58,19.33H13.58C13.58,16.78 12.61,14.39 10.91,12.5L9.31,14.1C10.66,15.45 11.46,17.31 11.46,19.33H9.46C9.46,17.73 8.85,16.27 7.85,15.13L1,22V8.82Z"/>
             </svg>
         </div>
-        
-        <h1>Brak połączenia</h1>
-        
-        <p>
-            Wygląda na to, że nie masz połączenia z internetem. 
-            Sprawdź swoje połączenie i spróbuj ponownie.
-        </p>
-        
-        <button onclick="window.location.reload()" class="btn">Spróbuj ponownie</button>
-        
-        <div class="contact-info">
-            <h3>📞 Możesz zadzwonić do nas:</h3>
-            <p><a href="tel:+48660530211">+48 660 530 211</a></p>
-            
-            <h3 style="margin-top: 20px;">📍 Lub odwiedź nas:</h3>
-            <p>ul. Odrodzenia 36<br>41-506 Chorzów</p>
+
+        <h1>Jesteś offline</h1>
+        <p>Wygląda na to, że nie masz połączenia z internetem. Nie martw się, możesz nadal przeglądać niektóre strony zapisane w pamięci.</p>
+
+        <div class="cached-pages">
+            <h2>📱 Dostępne strony offline:</h2>
+            <div class="cached-links">
+                <a href="/index.html">🏠 Strona główna</a>
+                <a href="/index.html#menu">🍽️ Menu</a>
+                <a href="/news.html">📰 Aktualności</a>
+                <a href="/privacy.html">🔒 Polityka Prywatności</a>
+            </div>
+        </div>
+
+        <button class="retry-btn" onclick="window.location.reload()">🔄 Spróbuj ponownie</button>
+
+        <div class="connection-status offline" id="connectionStatus">
+            ❌ Brak połączenia z internetem
+        </div>
+
+        <div class="tips">
+            <h3>💡 Wskazówki:</h3>
+            <ul>
+                <li>Sprawdź połączenie Wi-Fi lub dane mobilne</li>
+                <li>Włącz tryb samolotowy i wyłącz go ponownie</li>
+                <li>Przeglądaj zapisane strony offline</li>
+                <li>Strona automatycznie się odświeży po przywróceniu połączenia</li>
+            </ul>
         </div>
     </div>
 
     <script>
-        // Auto-retry connection every 5 seconds
-        let retryCount = 0;
-        const maxRetries = 10;
-
-        function checkConnection() {
-            if (navigator.onLine && retryCount < maxRetries) {
-                console.log('Connection restored, reloading...');
-                window.location.reload();
-            } else if (retryCount < maxRetries) {
-                retryCount++;
-                console.log(`Retry attempt ${retryCount}/${maxRetries}`);
-                setTimeout(checkConnection, 5000);
+        // Monitor connection status
+        function updateConnectionStatus() {
+            const statusElement = document.getElementById('connectionStatus');
+            
+            if (navigator.onLine) {
+                statusElement.className = 'connection-status online';
+                statusElement.textContent = '✅ Połączenie przywrócone! Odświeżanie...';
+                
+                // Reload page after 1 second
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                statusElement.className = 'connection-status offline';
+                statusElement.textContent = '❌ Brak połączenia z internetem';
             }
         }
 
-        // Start checking
-        window.addEventListener('online', () => {
-            console.log('Online event detected');
-            window.location.reload();
-        });
+        // Listen for connection changes
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
 
-        // Initial check after 5 seconds
-        setTimeout(checkConnection, 5000);
+        // Check status on load
+        updateConnectionStatus();
+
+        // Auto-retry every 10 seconds
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }, 10000);
     </script>
 </body>
 </html>
