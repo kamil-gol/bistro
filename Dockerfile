@@ -10,15 +10,39 @@ RUN rm -rf ./*
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy website files
+# Copy main HTML files
 COPY index.html .
+COPY news.html .
+COPY privacy.html .
+
+# Copy CSS files
 COPY styles.css .
+COPY cookieconsent.css .
+
+# Copy JavaScript files
 COPY script.js .
+COPY cookieconsent.js .
+COPY analytics.js .
+
+# Copy PWA files
+COPY pwa.js .
+COPY install-prompt.js .
+COPY service-worker.js .
+COPY offline.html .
+COPY manifest.json .
+
+# Copy icons directory (if exists)
+COPY icons ./icons
+
+# Copy documentation (optional, for reference)
+COPY README.md .
+COPY PWA_GUIDE.md .
 
 # Add metadata
-LABEL maintainer="Bistro Pętla"
-LABEL description="Professional website for Bistro Pętla - Chorzów"
-LABEL version="1.0"
+LABEL maintainer="Bistro Pętla <kamilgolebiowski@10g.pl>"
+LABEL description="Progressive Web App for Bistro Pętla - Chorzów"
+LABEL version="2.0.0"
+LABEL features="PWA, Analytics, GDPR, News"
 
 # Expose port 80
 EXPOSE 80
