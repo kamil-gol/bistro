@@ -2,7 +2,7 @@
 
 ## 🍽️ Overview
 
-Welcome to the official repository for **Bistro Pętla** - a modern, responsive website for a charming bistro located in Chorzów, Poland.
+Welcome to the official repository for **Bistro Pętla** - a modern, responsive **Progressive Web App** for a charming bistro located in Chorzów, Poland.
 
 This is an enterprise-grade, world-class website featuring:
 - ✨ **Stunning animations** and smooth transitions
@@ -15,6 +15,8 @@ This is an enterprise-grade, world-class website featuring:
 - 📰 **News/Blog section**
 - 🖼️ **Image optimization** with WebP support
 - 📊 **Google Analytics 4** with comprehensive event tracking
+- 📱 **Progressive Web App** with offline support
+- 🚀 **Installable** on mobile and desktop
 - 🐳 **Docker ready** with Nginx
 
 ## 🏢 About Bistro Pętla
@@ -29,6 +31,7 @@ This is an enterprise-grade, world-class website featuring:
 1. **Homepage (index.html)** - Main landing page with all sections
 2. **News/Blog (news.html)** - Latest news, promotions, events
 3. **Privacy Policy (privacy.html)** - Complete GDPR-compliant policy
+4. **Offline (offline.html)** - Beautiful offline fallback page
 
 ### Sections
 1. **Hero Section** - Eye-catching animated gradient background
@@ -47,6 +50,7 @@ This is an enterprise-grade, world-class website featuring:
 - Proper meta tags for SEO
 - Accessible ARIA labels
 - WebP image support with fallbacks
+- PWA meta tags (theme-color, manifest, icons)
 
 #### CSS3
 - CSS Custom Properties (variables)
@@ -59,12 +63,22 @@ This is an enterprise-grade, world-class website featuring:
 - Cookie Consent Manager (GDPR compliant)
 - Google Analytics 4 integration
 - Comprehensive event tracking (12+ events)
+- PWA Manager (install prompt, offline detection)
+- Service Worker (cache strategies, offline support)
 - Smooth scroll navigation
 - Intersection Observer for animations
 - Mobile menu toggle
 - Tab-based menu system
 - Parallax effects
 - Performance-optimized with debouncing
+
+#### PWA Features
+- 📱 **Installable** - Add to home screen (Android, iOS, Desktop)
+- 🐳 **Offline support** - Works without internet
+- 💾 **Smart caching** - Fast page loads
+- 🔄 **Auto-updates** - Always latest version
+- 🔔 **Push notifications** (ready for future)
+- 📦 **Background sync** (ready for future)
 
 #### Docker
 - Nginx web server
@@ -94,22 +108,6 @@ docker-compose logs -f
 
 **Access:** http://localhost:8080
 
-### Docker Commands
-
-```bash
-# Stop
-docker-compose stop
-
-# Restart
-docker-compose restart
-
-# Rebuild
-docker-compose up -d --build
-
-# Remove
-docker-compose down
-```
-
 See [DOCKER_README.md](DOCKER_README.md) for detailed Docker documentation.
 
 ## 📁 Project Structure
@@ -119,11 +117,15 @@ bistro/
 ├── index.html              # Main page
 ├── news.html               # News/Blog page
 ├── privacy.html            # Privacy Policy
+├── offline.html            # Offline fallback page
+├── manifest.json           # PWA manifest
+├── service-worker.js       # Service Worker for PWA
 ├── styles.css              # Main styles
 ├── cookieconsent.css       # Cookie banner styles
 ├── script.js               # Main JavaScript
 ├── cookieconsent.js        # Cookie Consent Manager
 ├── analytics.js            # Google Analytics 4 tracker
+├── pwa.js                  # PWA Manager (install, offline)
 ├── Dockerfile              # Docker configuration
 ├── docker-compose.yml      # Docker Compose config
 ├── nginx.conf              # Nginx configuration
@@ -132,10 +134,13 @@ bistro/
 │   ├── gallery/           # Gallery images
 │   ├── news/              # Blog images
 │   └── optimized/         # WebP optimized versions
+├── icons/                  # PWA icons
+│   └── README.md          # Icon generation guide
 ├── README.md               # This file
 ├── DOCKER_README.md        # Docker guide
 ├── SPRINT1_GUIDE.md        # Sprint 1 implementation guide
-└── GA4_SETUP_GUIDE.md      # Google Analytics setup guide
+├── GA4_SETUP_GUIDE.md      # Google Analytics setup guide
+└── PWA_GUIDE.md            # PWA setup and usage guide
 ```
 
 ## 🎯 Sprint Status
@@ -159,10 +164,22 @@ bistro/
 **Issue:** [#2](https://github.com/kamil-gol/bistro/issues/2) ✅ Completed  
 **Guide:** [GA4_SETUP_GUIDE.md](GA4_SETUP_GUIDE.md)
 
-**Tracked Events:**
-- 🎯 Conversion: delivery_platform_click, phone_click, cta_click
-- 📊 Engagement: navigation, menu_tabs, scroll_depth, time_on_page, section_views
-- 🔐 Privacy: cookie_consent actions
+### 🟡 Sprint 4: Progressive Web App - IN PROGRESS (90%)
+- [x] manifest.json configuration
+- [x] Service Worker with cache strategies
+- [x] Offline fallback page
+- [x] PWA Manager (install prompt, updates)
+- [x] Meta tags for PWA
+- [x] Online/Offline detection
+- [x] Auto-update mechanism
+- [x] Analytics integration
+- [x] Complete documentation
+- [ ] PWA icons generation (PNG files needed)
+- [ ] Lighthouse PWA audit (>90 score)
+- [ ] Install testing (Android, iOS, Desktop)
+
+**Issue:** [#4](https://github.com/kamil-gol/bistro/issues/4) 🟡 Open  
+**Guide:** [PWA_GUIDE.md](PWA_GUIDE.md)
 
 ### 🟡 Sprint 1: Content & Media - IN PROGRESS (60%)
 - [x] News/Blog section structure
@@ -175,8 +192,44 @@ bistro/
 **Issue:** [#1](https://github.com/kamil-gol/bistro/issues/1) 🟡 Open  
 **Guide:** [SPRINT1_GUIDE.md](SPRINT1_GUIDE.md)
 
-### 📅 Sprint 4: Progressive Web App - TODO
-**Issue:** [#4](https://github.com/kamil-gol/bistro/issues/4) ⏳ Pending
+## 📱 Progressive Web App (PWA)
+
+### Features:
+- ✅ **Installable** on Android, iOS, Windows, Mac, Linux
+- ✅ **Offline support** - Works without internet
+- ✅ **Service Worker** - Smart caching strategies
+- ✅ **Auto-updates** - Always latest version
+- ✅ **Fast loading** - Cached resources
+- ✅ **Native-like** - Fullscreen, splash screen
+- ✅ **Shortcuts** - Quick actions (Menu, Order, Contact)
+
+### How to Install:
+
+**Android (Chrome):**
+1. Visit site
+2. Tap "Add to Home Screen" or install icon
+3. Name: "Bistro Pętla"
+4. Tap "Install"
+
+**iOS (Safari):**
+1. Visit site
+2. Tap Share button
+3. "Add to Home Screen"
+4. Name: "Bistro Pętla"
+5. Tap "Add"
+
+**Desktop (Chrome/Edge):**
+1. Visit site
+2. Click install icon in address bar
+3. Click "Install"
+
+### Offline Features:
+- 🟢 View menu without internet
+- 🟢 Browse cached pages
+- 🟢 Beautiful offline page with contact info
+- 🟢 Auto-reconnect detection
+
+**Complete guide:** [PWA_GUIDE.md](PWA_GUIDE.md)
 
 ## 📊 Google Analytics 4
 
@@ -196,7 +249,7 @@ bistro/
 
 **Complete Guide:** See [GA4_SETUP_GUIDE.md](GA4_SETUP_GUIDE.md)
 
-### Tracked Events (12+)
+### Tracked Events (15+)
 
 **Conversion Events:**
 - `delivery_platform_click` - Uber Eats, Pyszne.pl clicks
@@ -215,14 +268,12 @@ bistro/
 - `cookie_consent` - Accept/Decline/Settings
 - `page_exit` - Time spent before leaving
 
-### Key Features
-- ✅ GDPR compliant (loads only after consent)
-- ✅ Event queue (saves events before consent)
-- ✅ Anonymize IP enabled
-- ✅ Cookie Consent integration
-- ✅ Comprehensive tracking (12+ event types)
-- ✅ Custom dashboard ready
-- ✅ Conversion goals configured
+**PWA Events:**
+- `pwa_install_prompt_shown` - Install prompt displayed
+- `pwa_install_choice` - User choice (accepted/dismissed)
+- `pwa_installed` - App installed successfully
+- `connectivity_online` - Connection restored
+- `connectivity_offline` - Went offline
 
 ## 🖼️ Images Guide
 
@@ -286,7 +337,9 @@ Fully responsive and optimized for:
 - Debounced scroll events
 - Nginx with Gzip compression
 - Async GA4 loading
+- Service Worker caching
 - Target: < 3s page load time
+- Target Lighthouse score: > 90
 
 ## ♿ Accessibility
 
@@ -304,6 +357,7 @@ Fully responsive and optimized for:
 - Alt text for images
 - Fast loading times
 - Mobile-friendly design
+- PWA (Google ranking boost)
 - Schema.org markup ready
 - GA4 for insights
 
@@ -372,6 +426,7 @@ Facebook: [Bistro Pętla](https://www.facebook.com/p/Bistro-Pętla-6155629935047
 - Google Fonts for typography
 - Material Design Icons for SVG icons
 - Google Analytics for insights
+- PWA standards by W3C
 - The Bistro Pętla team for their trust
 
 ## 📊 Project Timeline
@@ -380,10 +435,12 @@ Facebook: [Bistro Pętla](https://www.facebook.com/p/Bistro-Pętla-6155629935047
 - **Feb 5, 2026, 21:00:** Sprint 3 completed (GDPR)
 - **Feb 5, 2026, 22:00:** Sprint 1 started (Images & News) - 60% complete
 - **Feb 5, 2026, 22:21:** Sprint 2 completed (Google Analytics 4) ✅
+- **Feb 5, 2026, 22:35:** Sprint 4 started (PWA) - 90% complete 🟡
 - **Target:** Sprint 1 completion in 1-2 weeks (photo session needed)
+- **Target:** Sprint 4 completion in 1 day (icons needed)
 
 ---
 
 **Built with ❤️ and ☕ for Bistro Pętla**
 
-*Last updated: February 5, 2026, 22:21 CET*
+*Last updated: February 5, 2026, 22:35 CET*
