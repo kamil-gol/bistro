@@ -1,159 +1,314 @@
-// Service Worker for Bistro Pętla PWA
-// Version 1.0.0
+/**
+ * Service Worker for Bistro Pętla PWA
+ * Version: 1.0.0
+ * 
+ * Cache Strategy:
+ * - Static assets (CSS, JS, fonts): Cache First
+ * - Images: Cache First with expiration
+ * - HTML pages: Network First with cache fallback
+ * - API calls: Network Only
+ */
 
-const CACHE_NAME = 'bistro-petla-v1.0.0';
-const RUNTIME_CACHE = 'bistro-runtime-v1';
+const CACHE_VERSION = 'v1.0.0';
+const CACHE_NAME = `bistro-petla-${CACHE_VERSION}`;
+const OFFLINE_PAGE = '/offline.html';
 
-// Files to cache for offline use
+// Files to cache on install
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/news.html',
+  '/privacy.html',
+  '/offline.html',
   '/styles.css',
+  '/cookieconsent.css',
   '/script.js',
-  '/manifest.json',
-  '/cookie-consent.js',
+  '/cookieconsent.js',
   '/analytics.js',
-  'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap'
+  '/pwa.js',
+  '/manifest.json'
 ];
 
-// Install event - cache static assets
+// Cache priority groups
+const CACHE_STRATEGIES = {
+  staticAssets: [
+    /\.css$/,
+    /\.js$/,
+    /\.woff2?$/,
+    /\.ttf$/,
+    /\.eot$/
+  ],
+  images: [
+    /\.png$/,
+    /\.jpg$/,
+    /\.jpeg$/,
+    /\.webp$/,
+    /\.svg$/,
+    /\.gif$/
+  ],
+  documents: [
+    /\.html$/,
+    /\/$/  // Root path
+  ]
+};
+
+/**
+ * Install Event - Precache critical resources
+ */
 self.addEventListener('install', (event) => {
-  console.log('[ServiceWorker] Installing...');
+  console.log('[SW] Installing Service Worker version:', CACHE_VERSION);
+  
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[ServiceWorker] Caching app shell');
+        console.log('[SW] Precaching static resources');
         return cache.addAll(PRECACHE_URLS);
       })
-      .then(() => self.skipWaiting())
-  );
-});
-
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
-  console.log('[ServiceWorker] Activating...');
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((cacheName) => {
-            return cacheName !== CACHE_NAME && cacheName !== RUNTIME_CACHE;
-          })
-          .map((cacheName) => {
-            console.log('[ServiceWorker] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          })
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// Fetch event - network first, fallback to cache
-self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin) && 
-      !event.request.url.includes('fonts.googleapis.com') &&
-      !event.request.url.includes('fonts.gstatic.com')) {
-    return;
-  }
-
-  // Handle navigation requests
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          return caches.match('/index.html');
-        })
-    );
-    return;
-  }
-
-  // Network first strategy for API calls and dynamic content
-  if (event.request.url.includes('/api/') || 
-      event.request.url.includes('pyszne.pl') ||
-      event.request.url.includes('ubereats.com')) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Clone the response before caching
-          const responseClone = response.clone();
-          caches.open(RUNTIME_CACHE).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
-          return response;
-        })
-        .catch(() => {
-          return caches.match(event.request);
-        })
-    );
-    return;
-  }
-
-  // Cache first strategy for static assets
-  event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(event.request)
-          .then((response) => {
-            // Don't cache if not successful
-            if (!response || response.status !== 200 || response.type === 'error') {
-              return response;
-            }
-            const responseClone = response.clone();
-            caches.open(RUNTIME_CACHE).then((cache) => {
-              cache.put(event.request, responseClone);
-            });
-            return response;
-          });
+      .then(() => {
+        console.log('[SW] Installation complete');
+        // Force the waiting service worker to become the active service worker
+        return self.skipWaiting();
+      })
+      .catch((error) => {
+        console.error('[SW] Installation failed:', error);
       })
   );
 });
 
-// Background sync for offline form submissions (future feature)
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-reservations') {
-    event.waitUntil(syncReservations());
+/**
+ * Activate Event - Clean up old caches
+ */
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating Service Worker version:', CACHE_VERSION);
+  
+  event.waitUntil(
+    caches.keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME && cacheName.startsWith('bistro-petla-')) {
+              console.log('[SW] Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+      .then(() => {
+        console.log('[SW] Activation complete, claiming clients');
+        // Take control of all pages immediately
+        return self.clients.claim();
+      })
+  );
+});
+
+/**
+ * Fetch Event - Intercept network requests
+ */
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Skip non-GET requests
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  // Skip chrome-extension and other protocols
+  if (!url.protocol.startsWith('http')) {
+    return;
+  }
+
+  // Skip external domains (Google Analytics, fonts, etc.)
+  if (url.origin !== location.origin) {
+    // But cache Google Fonts
+    if (url.origin === 'https://fonts.googleapis.com' || 
+        url.origin === 'https://fonts.gstatic.com') {
+      event.respondWith(cacheFirstStrategy(request));
+    }
+    return;
+  }
+
+  // Determine strategy based on request type
+  if (matchesPattern(url.pathname, CACHE_STRATEGIES.staticAssets)) {
+    // Static assets: Cache First
+    event.respondWith(cacheFirstStrategy(request));
+  } 
+  else if (matchesPattern(url.pathname, CACHE_STRATEGIES.images)) {
+    // Images: Cache First with fallback
+    event.respondWith(cacheFirstStrategy(request));
+  } 
+  else if (matchesPattern(url.pathname, CACHE_STRATEGIES.documents)) {
+    // HTML pages: Network First with cache fallback
+    event.respondWith(networkFirstStrategy(request));
+  } 
+  else {
+    // Default: Network First
+    event.respondWith(networkFirstStrategy(request));
   }
 });
 
-function syncReservations() {
-  // This will be implemented when reservation system is added
-  console.log('[ServiceWorker] Syncing reservations...');
-  return Promise.resolve();
+/**
+ * Cache First Strategy
+ * Good for: Static assets, images
+ */
+async function cacheFirstStrategy(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request);
+  
+  if (cached) {
+    console.log('[SW] Serving from cache:', request.url);
+    return cached;
+  }
+
+  try {
+    console.log('[SW] Fetching and caching:', request.url);
+    const response = await fetch(request);
+    
+    // Only cache successful responses
+    if (response.ok) {
+      cache.put(request, response.clone());
+    }
+    
+    return response;
+  } catch (error) {
+    console.error('[SW] Fetch failed:', request.url, error);
+    
+    // Return offline page for HTML requests
+    if (request.destination === 'document') {
+      return cache.match(OFFLINE_PAGE);
+    }
+    
+    // Return generic error for other types
+    return new Response('Network error', {
+      status: 408,
+      headers: { 'Content-Type': 'text/plain' }
+    });
+  }
 }
 
-// Push notification handler (future feature)
+/**
+ * Network First Strategy
+ * Good for: HTML pages, dynamic content
+ */
+async function networkFirstStrategy(request) {
+  const cache = await caches.open(CACHE_NAME);
+  
+  try {
+    console.log('[SW] Fetching from network:', request.url);
+    const response = await fetch(request);
+    
+    // Cache successful responses
+    if (response.ok) {
+      cache.put(request, response.clone());
+    }
+    
+    return response;
+  } catch (error) {
+    console.log('[SW] Network failed, serving from cache:', request.url);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    // Return offline page for HTML requests
+    if (request.destination === 'document') {
+      return cache.match(OFFLINE_PAGE);
+    }
+    
+    // Return error for other types
+    return new Response('Offline', {
+      status: 503,
+      statusText: 'Service Unavailable',
+      headers: { 'Content-Type': 'text/plain' }
+    });
+  }
+}
+
+/**
+ * Check if URL matches any pattern
+ */
+function matchesPattern(url, patterns) {
+  return patterns.some(pattern => pattern.test(url));
+}
+
+/**
+ * Message Event - Communication with main thread
+ */
+self.addEventListener('message', (event) => {
+  console.log('[SW] Message received:', event.data);
+  
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  
+  if (event.data && event.data.type === 'CACHE_URLS') {
+    const urls = event.data.urls;
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urls))
+      .then(() => {
+        event.ports[0].postMessage({ success: true });
+      })
+      .catch((error) => {
+        console.error('[SW] Cache URLs failed:', error);
+        event.ports[0].postMessage({ success: false, error: error.message });
+      });
+  }
+});
+
+/**
+ * Sync Event - Background sync (future enhancement)
+ */
+self.addEventListener('sync', (event) => {
+  console.log('[SW] Sync event:', event.tag);
+  
+  if (event.tag === 'sync-orders') {
+    // Future: Sync offline orders when back online
+    event.waitUntil(syncOfflineOrders());
+  }
+});
+
+async function syncOfflineOrders() {
+  // Placeholder for future offline order sync functionality
+  console.log('[SW] Syncing offline orders...');
+}
+
+/**
+ * Push Event - Push notifications (future enhancement)
+ */
 self.addEventListener('push', (event) => {
+  console.log('[SW] Push event received');
+  
   const options = {
-    body: event.data ? event.data.text() : 'Nowa oferta w Bistro Pętla!',
-    icon: '/icon-192.png',
-    badge: '/badge-72.png',
+    body: event.data ? event.data.text() : 'Nowa wiadomość z Bistro Pętla',
+    icon: '/icons/icon-192.png',
+    badge: '/icons/icon-72.png',
     vibrate: [200, 100, 200],
     tag: 'bistro-notification',
-    requireInteraction: false,
     actions: [
-      { action: 'view', title: 'Zobacz ofertę' },
+      { action: 'open', title: 'Otwórz' },
       { action: 'close', title: 'Zamknij' }
     ]
   };
-
+  
   event.waitUntil(
     self.registration.showNotification('Bistro Pętla', options)
   );
 });
 
-// Notification click handler
+/**
+ * Notification Click Event
+ */
 self.addEventListener('notificationclick', (event) => {
+  console.log('[SW] Notification clicked:', event.action);
+  
   event.notification.close();
-
-  if (event.action === 'view') {
+  
+  if (event.action === 'open') {
     event.waitUntil(
       clients.openWindow('/')
     );
   }
 });
 
-console.log('[ServiceWorker] Loaded successfully');
+console.log('[SW] Service Worker script loaded');
