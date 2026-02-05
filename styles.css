@@ -658,6 +658,17 @@ body {
     box-shadow: 0 8px 30px rgba(6, 193, 103, 0.4);
 }
 
+.delivery-btn.uber-eats {
+    background: #06c167;
+    box-shadow: 0 4px 20px rgba(6, 193, 103, 0.4);
+}
+
+.delivery-btn.uber-eats:hover {
+    background: #05a356;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(6, 193, 103, 0.5);
+}
+
 .delivery-btn.pyszne {
     background: #ff8000;
     box-shadow: 0 4px 20px rgba(255, 128, 0, 0.4);
