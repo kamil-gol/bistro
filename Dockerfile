@@ -24,9 +24,6 @@ COPY script.js .
 COPY cookieconsent.js .
 COPY analytics.js .
 
-# Copy documentation (optional, for reference)
-COPY README.md .
-
 # Add metadata
 LABEL maintainer="Bistro Pętla <kamilgolebiowski@10g.pl>"
 LABEL description="Website for Bistro Pętla - Chorzów"
