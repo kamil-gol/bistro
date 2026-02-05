@@ -1,48 +1,55 @@
 /**
- * Google Analytics 4 Implementation
- * Bistro Pętla - Advanced Event Tracking
+ * Google Analytics 4 - Event Tracking System
  * Version: 1.0
+ * Description: Comprehensive analytics tracking for Bistro Pętla
  */
 
-class AnalyticsManager {
+class BistroAnalytics {
     constructor() {
         this.gaId = 'G-XXXXXXXXXX'; // REPLACE WITH YOUR GA4 MEASUREMENT ID
-        this.initialized = false;
-        this.cookieConsent = null;
-        this.debugMode = false; // Set to true for testing
+        this.isGALoaded = false;
+        this.hasConsent = false;
+        this.eventQueue = [];
         
         this.init();
     }
 
-    /**
-     * Initialize Analytics
-     */
     init() {
-        // Wait for cookie consent
-        if (typeof window.cookieConsent !== 'undefined') {
-            this.cookieConsent = window.cookieConsent;
-            
-            // Check if analytics consent was given
-            const consent = this.cookieConsent.getCookie('bistro_petla_cookie_consent');
-            if (consent) {
-                const preferences = JSON.parse(consent);
-                if (preferences.analytics) {
-                    this.loadGA4();
-                }
+        // Check if user has given analytics consent
+        this.checkConsent();
+        
+        // If consent given, load GA4
+        if (this.hasConsent) {
+            this.loadGA4();
+        }
+        
+        // Setup all event listeners
+        this.setupEventListeners();
+        
+        // Track page view
+        this.trackPageView();
+        
+        console.log('📊 Bistro Analytics initialized');
+    }
+
+    checkConsent() {
+        // Check if cookie consent manager has approved analytics
+        const consent = this.getCookie('bistro_petla_cookie_consent');
+        
+        if (consent) {
+            try {
+                const consentData = JSON.parse(consent);
+                this.hasConsent = consentData.analytics === true;
+            } catch (e) {
+                this.hasConsent = false;
             }
-        } else {
-            // Retry after cookie consent loads
-            setTimeout(() => this.init(), 500);
         }
     }
 
-    /**
-     * Load Google Analytics 4
-     */
     loadGA4() {
-        if (this.initialized) return;
-
-        // Load gtag.js
+        if (this.isGALoaded) return;
+        
+        // Create script element
         const script = document.createElement('script');
         script.async = true;
         script.src = `https://www.googletagmanager.com/gtag/js?id=${this.gaId}`;
@@ -55,358 +62,372 @@ class AnalyticsManager {
         gtag('js', new Date());
         gtag('config', this.gaId, {
             'anonymize_ip': true,
-            'cookie_flags': 'SameSite=None;Secure',
-            'send_page_view': true
+            'cookie_flags': 'SameSite=None;Secure'
         });
 
-        this.initialized = true;
-        this.setupEventTracking();
+        this.isGALoaded = true;
         
-        if (this.debugMode) {
-            console.log('✅ Google Analytics 4 loaded:', this.gaId);
-        }
+        // Process queued events
+        this.processQueue();
+        
+        console.log('✅ Google Analytics 4 loaded');
     }
 
-    /**
-     * Setup all event tracking
-     */
-    setupEventTracking() {
-        this.trackNavigation();
-        this.trackCTAButtons();
-        this.trackMenuInteractions();
-        this.trackOrderButtons();
-        this.trackContactActions();
-        this.trackSocialLinks();
-        this.trackScrollDepth();
-        this.trackTimeOnPage();
-        this.trackNewsClicks();
-    }
+    trackEvent(eventName, eventParams = {}) {
+        const event = {
+            name: eventName,
+            params: eventParams,
+            timestamp: new Date().toISOString()
+        };
 
-    /**
-     * Track navigation clicks
-     */
-    trackNavigation() {
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const section = e.target.getAttribute('href').replace('#', '');
-                this.trackEvent('navigation', {
-                    'event_category': 'engagement',
-                    'event_label': section,
-                    'navigation_type': 'menu'
-                });
-            });
-        });
-    }
-
-    /**
-     * Track CTA buttons (Call to Action)
-     */
-    trackCTAButtons() {
-        // Hero buttons
-        document.querySelectorAll('.hero-buttons .btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const btnText = e.target.textContent.trim();
-                this.trackEvent('cta_click', {
-                    'event_category': 'engagement',
-                    'event_label': btnText,
-                    'button_location': 'hero'
-                });
-            });
-        });
-
-        // Primary nav button
-        const navBtn = document.querySelector('.btn-primary-nav');
-        if (navBtn) {
-            navBtn.addEventListener('click', () => {
-                this.trackEvent('cta_click', {
-                    'event_category': 'engagement',
-                    'event_label': 'Zamów Online',
-                    'button_location': 'navigation'
-                });
-            });
-        }
-    }
-
-    /**
-     * Track menu interactions
-     */
-    trackMenuInteractions() {
-        // Menu tab clicks
-        document.querySelectorAll('.tab-btn').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                const category = e.target.getAttribute('data-category');
-                this.trackEvent('menu_category_view', {
-                    'event_category': 'menu',
-                    'event_label': category,
-                    'interaction_type': 'tab_click'
-                });
-            });
-        });
-
-        // Track time spent viewing each menu category
-        const observeMenuCategory = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const category = entry.target.getAttribute('data-category');
-                    this.trackEvent('menu_category_viewed', {
-                        'event_category': 'menu',
-                        'event_label': category,
-                        'interaction_type': 'scroll_view'
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.menu-category').forEach(cat => {
-            observeMenuCategory.observe(cat);
-        });
-    }
-
-    /**
-     * Track order button clicks
-     */
-    trackOrderButtons() {
-        // Uber Eats button
-        const uberBtn = document.querySelector('.delivery-btn.uber');
-        if (uberBtn) {
-            uberBtn.addEventListener('click', () => {
-                this.trackEvent('order_click', {
-                    'event_category': 'conversion',
-                    'event_label': 'Uber Eats',
-                    'platform': 'uber_eats',
-                    'value': 1
-                });
-            });
-        }
-
-        // Pyszne.pl button
-        const pyszneBtn = document.querySelector('.delivery-btn.pyszne');
-        if (pyszneBtn) {
-            pyszneBtn.addEventListener('click', () => {
-                this.trackEvent('order_click', {
-                    'event_category': 'conversion',
-                    'event_label': 'Pyszne.pl',
-                    'platform': 'pyszne',
-                    'value': 1
-                });
-            });
-        }
-    }
-
-    /**
-     * Track contact actions
-     */
-    trackContactActions() {
-        // Phone number clicks
-        document.querySelectorAll('a[href^="tel:"]').forEach(tel => {
-            tel.addEventListener('click', (e) => {
-                const number = e.target.getAttribute('href').replace('tel:', '');
-                this.trackEvent('contact_phone', {
-                    'event_category': 'contact',
-                    'event_label': number,
-                    'contact_method': 'phone'
-                });
-            });
-        });
-
-        // Email clicks
-        document.querySelectorAll('a[href^="mailto:"]').forEach(email => {
-            email.addEventListener('click', (e) => {
-                const address = e.target.getAttribute('href').replace('mailto:', '');
-                this.trackEvent('contact_email', {
-                    'event_category': 'contact',
-                    'event_label': address,
-                    'contact_method': 'email'
-                });
-            });
-        });
-
-        // Map interaction
-        const mapIframe = document.querySelector('.contact-map iframe');
-        if (mapIframe) {
-            mapIframe.addEventListener('click', () => {
-                this.trackEvent('map_interaction', {
-                    'event_category': 'contact',
-                    'event_label': 'Google Maps',
-                    'interaction_type': 'click'
-                });
-            });
-        }
-    }
-
-    /**
-     * Track social media links
-     */
-    trackSocialLinks() {
-        document.querySelectorAll('a[href*="facebook.com"]').forEach(link => {
-            link.addEventListener('click', () => {
-                this.trackEvent('social_click', {
-                    'event_category': 'engagement',
-                    'event_label': 'Facebook',
-                    'social_network': 'facebook'
-                });
-            });
-        });
-
-        document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
-            link.addEventListener('click', () => {
-                this.trackEvent('social_click', {
-                    'event_category': 'engagement',
-                    'event_label': 'Instagram',
-                    'social_network': 'instagram'
-                });
-            });
-        });
-    }
-
-    /**
-     * Track scroll depth
-     */
-    trackScrollDepth() {
-        const milestones = [25, 50, 75, 100];
-        const tracked = new Set();
-
-        window.addEventListener('scroll', this.debounce(() => {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = (window.scrollY / scrollHeight) * 100;
-
-            milestones.forEach(milestone => {
-                if (scrolled >= milestone && !tracked.has(milestone)) {
-                    tracked.add(milestone);
-                    this.trackEvent('scroll_depth', {
-                        'event_category': 'engagement',
-                        'event_label': `${milestone}%`,
-                        'percent_scrolled': milestone
-                    });
-                }
-            });
-        }, 500));
-    }
-
-    /**
-     * Track time on page
-     */
-    trackTimeOnPage() {
-        const startTime = Date.now();
-        const intervals = [30, 60, 120, 300]; // seconds
-        const tracked = new Set();
-
-        setInterval(() => {
-            const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-            
-            intervals.forEach(interval => {
-                if (timeSpent >= interval && !tracked.has(interval)) {
-                    tracked.add(interval);
-                    this.trackEvent('time_on_page', {
-                        'event_category': 'engagement',
-                        'event_label': `${interval}s`,
-                        'time_seconds': interval
-                    });
-                }
-            });
-        }, 10000); // Check every 10 seconds
-    }
-
-    /**
-     * Track news article clicks
-     */
-    trackNewsClicks() {
-        document.querySelectorAll('.news-read-more').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const card = e.target.closest('.news-card');
-                const title = card ? card.querySelector('.news-title').textContent : 'Unknown';
-                const category = card ? card.querySelector('.news-category').textContent : 'Unknown';
-                
-                this.trackEvent('news_article_click', {
-                    'event_category': 'content',
-                    'event_label': title,
-                    'article_category': category
-                });
-            });
-        });
-    }
-
-    /**
-     * Track custom event
-     * @param {string} eventName - Name of the event
-     * @param {object} params - Event parameters
-     */
-    trackEvent(eventName, params = {}) {
-        if (!this.initialized) {
-            if (this.debugMode) {
-                console.warn('⚠️ Analytics not initialized yet');
-            }
+        // If no consent or GA not loaded, queue the event
+        if (!this.hasConsent || !this.isGALoaded) {
+            this.eventQueue.push(event);
+            console.log('📝 Event queued:', eventName);
             return;
         }
 
-        if (typeof gtag !== 'undefined') {
-            gtag('event', eventName, params);
-            
-            if (this.debugMode) {
-                console.log('📊 Event tracked:', eventName, params);
-            }
+        // Send event to GA4
+        if (window.gtag) {
+            gtag('event', eventName, eventParams);
+            console.log('📊 Event tracked:', eventName, eventParams);
         }
     }
 
-    /**
-     * Track page view (for SPA navigation)
-     * @param {string} pagePath - Page path
-     * @param {string} pageTitle - Page title
-     */
-    trackPageView(pagePath, pageTitle) {
-        if (!this.initialized) return;
+    processQueue() {
+        if (!this.hasConsent || !this.isGALoaded) return;
+        
+        while (this.eventQueue.length > 0) {
+            const event = this.eventQueue.shift();
+            this.trackEvent(event.name, event.params);
+        }
+    }
 
-        if (typeof gtag !== 'undefined') {
-            gtag('config', this.gaId, {
-                'page_path': pagePath,
-                'page_title': pageTitle
+    trackPageView() {
+        const pageData = {
+            page_title: document.title,
+            page_location: window.location.href,
+            page_path: window.location.pathname
+        };
+        
+        this.trackEvent('page_view', pageData);
+    }
+
+    setupEventListeners() {
+        // Track CTA Buttons
+        this.trackCTAButtons();
+        
+        // Track Navigation
+        this.trackNavigation();
+        
+        // Track Delivery Platform Clicks
+        this.trackDeliveryClicks();
+        
+        // Track Phone Clicks
+        this.trackPhoneClicks();
+        
+        // Track Menu Interactions
+        this.trackMenuTabs();
+        
+        // Track Scroll Depth
+        this.trackScrollDepth();
+        
+        // Track Time on Page
+        this.trackTimeOnPage();
+        
+        // Track Section Views
+        this.trackSectionViews();
+        
+        // Track Social Media Clicks
+        this.trackSocialClicks();
+        
+        // Track Cookie Settings
+        this.trackCookieInteractions();
+    }
+
+    trackCTAButtons() {
+        // Hero section buttons
+        const heroButtons = document.querySelectorAll('.hero-buttons .btn');
+        heroButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const buttonText = btn.textContent.trim();
+                this.trackEvent('cta_click', {
+                    button_text: buttonText,
+                    button_location: 'hero',
+                    event_category: 'engagement'
+                });
             });
-            
-            if (this.debugMode) {
-                console.log('📄 Page view tracked:', pagePath);
-            }
+        });
+
+        // Primary CTA in nav
+        const navCTA = document.querySelector('.btn-primary-nav');
+        if (navCTA) {
+            navCTA.addEventListener('click', () => {
+                this.trackEvent('cta_click', {
+                    button_text: 'Zamów Online',
+                    button_location: 'navigation',
+                    event_category: 'engagement'
+                });
+            });
         }
     }
 
-    /**
-     * Track conversion (goal completion)
-     * @param {string} conversionName - Name of conversion
-     * @param {number} value - Monetary value (optional)
-     */
-    trackConversion(conversionName, value = 0) {
-        if (!this.initialized) return;
-
-        this.trackEvent('conversion', {
-            'event_category': 'conversion',
-            'event_label': conversionName,
-            'value': value,
-            'currency': 'PLN'
+    trackNavigation() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const linkText = link.textContent.trim();
+                const linkHref = link.getAttribute('href');
+                
+                this.trackEvent('navigation_click', {
+                    link_text: linkText,
+                    link_url: linkHref,
+                    event_category: 'navigation'
+                });
+            });
         });
     }
 
-    /**
-     * Utility: Debounce function
-     */
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
+    trackDeliveryClicks() {
+        // Uber Eats
+        const uberBtn = document.querySelector('a[href*="ubereats.com"]');
+        if (uberBtn) {
+            uberBtn.addEventListener('click', () => {
+                this.trackEvent('delivery_platform_click', {
+                    platform: 'uber_eats',
+                    event_category: 'conversion',
+                    event_label: 'order_intent'
+                });
+            });
+        }
+
+        // Pyszne.pl
+        const pyszneBtn = document.querySelector('a[href*="pyszne.pl"]');
+        if (pyszneBtn) {
+            pyszneBtn.addEventListener('click', () => {
+                this.trackEvent('delivery_platform_click', {
+                    platform: 'pyszne_pl',
+                    event_category: 'conversion',
+                    event_label: 'order_intent'
+                });
+            });
+        }
+    }
+
+    trackPhoneClicks() {
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        phoneLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const phoneNumber = link.getAttribute('href').replace('tel:', '');
+                this.trackEvent('phone_click', {
+                    phone_number: phoneNumber,
+                    event_category: 'conversion',
+                    event_label: 'contact_intent'
+                });
+            });
+        });
+    }
+
+    trackMenuTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.getAttribute('data-category');
+                this.trackEvent('menu_tab_change', {
+                    menu_category: category,
+                    event_category: 'engagement',
+                    event_label: 'menu_exploration'
+                });
+            });
+        });
+    }
+
+    trackScrollDepth() {
+        let maxScroll = 0;
+        const milestones = [25, 50, 75, 90, 100];
+        const tracked = new Set();
+
+        const checkScroll = () => {
+            const scrollPercentage = Math.round(
+                (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+            );
+
+            if (scrollPercentage > maxScroll) {
+                maxScroll = scrollPercentage;
+
+                milestones.forEach(milestone => {
+                    if (scrollPercentage >= milestone && !tracked.has(milestone)) {
+                        tracked.add(milestone);
+                        this.trackEvent('scroll_depth', {
+                            percentage: milestone,
+                            event_category: 'engagement',
+                            event_label: `scroll_${milestone}`
+                        });
+                    }
+                });
+            }
         };
+
+        // Debounced scroll handler
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkScroll, 100);
+        });
+    }
+
+    trackTimeOnPage() {
+        const startTime = Date.now();
+        const milestones = [30, 60, 120, 300]; // seconds
+        const tracked = new Set();
+
+        const checkTime = () => {
+            const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+            
+            milestones.forEach(milestone => {
+                if (timeSpent >= milestone && !tracked.has(milestone)) {
+                    tracked.add(milestone);
+                    this.trackEvent('time_on_page', {
+                        duration_seconds: milestone,
+                        event_category: 'engagement',
+                        event_label: `time_${milestone}s`
+                    });
+                }
+            });
+        };
+
+        // Check every 10 seconds
+        setInterval(checkTime, 10000);
+
+        // Track on page unload
+        window.addEventListener('beforeunload', () => {
+            const totalTime = Math.floor((Date.now() - startTime) / 1000);
+            this.trackEvent('page_exit', {
+                time_spent_seconds: totalTime,
+                event_category: 'engagement'
+            });
+        });
+    }
+
+    trackSectionViews() {
+        const sections = document.querySelectorAll('section[id]');
+        const observed = new Set();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !observed.has(entry.target.id)) {
+                    observed.add(entry.target.id);
+                    
+                    this.trackEvent('section_view', {
+                        section_id: entry.target.id,
+                        event_category: 'engagement',
+                        event_label: 'section_visibility'
+                    });
+                }
+            });
+        }, {
+            threshold: 0.5 // 50% of section must be visible
+        });
+
+        sections.forEach(section => observer.observe(section));
+    }
+
+    trackSocialClicks() {
+        const socialLinks = document.querySelectorAll('a[href*="facebook.com"], a[href*="instagram.com"], a[href*="twitter.com"]');
+        
+        socialLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const url = link.getAttribute('href');
+                let platform = 'unknown';
+                
+                if (url.includes('facebook')) platform = 'facebook';
+                else if (url.includes('instagram')) platform = 'instagram';
+                else if (url.includes('twitter')) platform = 'twitter';
+                
+                this.trackEvent('social_click', {
+                    platform: platform,
+                    event_category: 'engagement',
+                    event_label: 'social_media'
+                });
+            });
+        });
+    }
+
+    trackCookieInteractions() {
+        // Track cookie banner interactions
+        const acceptBtn = document.getElementById('acceptCookies');
+        const declineBtn = document.getElementById('declineCookies');
+        const settingsBtn = document.getElementById('cookieSettings');
+
+        if (acceptBtn) {
+            acceptBtn.addEventListener('click', () => {
+                this.trackEvent('cookie_consent', {
+                    action: 'accept_all',
+                    event_category: 'privacy',
+                    event_label: 'gdpr'
+                });
+            });
+        }
+
+        if (declineBtn) {
+            declineBtn.addEventListener('click', () => {
+                this.trackEvent('cookie_consent', {
+                    action: 'decline',
+                    event_category: 'privacy',
+                    event_label: 'gdpr'
+                });
+            });
+        }
+
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                this.trackEvent('cookie_consent', {
+                    action: 'open_settings',
+                    event_category: 'privacy',
+                    event_label: 'gdpr'
+                });
+            });
+        }
+    }
+
+    // Utility: Get cookie
+    getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Public method: Track custom event
+    track(eventName, eventParams) {
+        this.trackEvent(eventName, eventParams);
+    }
+
+    // Public method: Enable analytics (after consent)
+    enable() {
+        this.hasConsent = true;
+        this.loadGA4();
+        console.log('✅ Analytics enabled by user consent');
+    }
+
+    // Public method: Disable analytics
+    disable() {
+        this.hasConsent = false;
+        console.log('❌ Analytics disabled by user');
     }
 }
 
-// Initialize Analytics Manager
+// Initialize analytics when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        window.analyticsManager = new AnalyticsManager();
+        window.bistroAnalytics = new BistroAnalytics();
     });
 } else {
-    window.analyticsManager = new AnalyticsManager();
+    window.bistroAnalytics = new BistroAnalytics();
 }
 
-console.log('📊 Analytics Manager loaded');
+console.log('📊 Analytics module loaded');

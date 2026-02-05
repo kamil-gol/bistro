@@ -14,6 +14,7 @@ This is an enterprise-grade, world-class website featuring:
 - 🍪 **GDPR-compliant** Cookie Consent
 - 📰 **News/Blog section**
 - 🖼️ **Image optimization** with WebP support
+- 📊 **Google Analytics 4** with comprehensive event tracking
 - 🐳 **Docker ready** with Nginx
 
 ## 🏢 About Bistro Pętla
@@ -56,6 +57,8 @@ This is an enterprise-grade, world-class website featuring:
 
 #### JavaScript (Vanilla)
 - Cookie Consent Manager (GDPR compliant)
+- Google Analytics 4 integration
+- Comprehensive event tracking (12+ events)
 - Smooth scroll navigation
 - Intersection Observer for animations
 - Mobile menu toggle
@@ -120,6 +123,7 @@ bistro/
 ├── cookieconsent.css       # Cookie banner styles
 ├── script.js               # Main JavaScript
 ├── cookieconsent.js        # Cookie Consent Manager
+├── analytics.js            # Google Analytics 4 tracker
 ├── Dockerfile              # Docker configuration
 ├── docker-compose.yml      # Docker Compose config
 ├── nginx.conf              # Nginx configuration
@@ -130,7 +134,8 @@ bistro/
 │   └── optimized/         # WebP optimized versions
 ├── README.md               # This file
 ├── DOCKER_README.md        # Docker guide
-└── SPRINT1_GUIDE.md        # Sprint 1 implementation guide
+├── SPRINT1_GUIDE.md        # Sprint 1 implementation guide
+└── GA4_SETUP_GUIDE.md      # Google Analytics setup guide
 ```
 
 ## 🎯 Sprint Status
@@ -143,6 +148,22 @@ bistro/
 
 **Issue:** [#3](https://github.com/kamil-gol/bistro/issues/3) ✅ Closed
 
+### ✅ Sprint 2: Analytics & Tracking - COMPLETED
+- [x] Google Analytics 4 implementation
+- [x] Comprehensive event tracking (12+ events)
+- [x] Conversion goals setup
+- [x] Dashboard configuration guide
+- [x] GDPR-compliant integration
+- [x] Complete documentation
+
+**Issue:** [#2](https://github.com/kamil-gol/bistro/issues/2) ✅ Completed  
+**Guide:** [GA4_SETUP_GUIDE.md](GA4_SETUP_GUIDE.md)
+
+**Tracked Events:**
+- 🎯 Conversion: delivery_platform_click, phone_click, cta_click
+- 📊 Engagement: navigation, menu_tabs, scroll_depth, time_on_page, section_views
+- 🔐 Privacy: cookie_consent actions
+
 ### 🟡 Sprint 1: Content & Media - IN PROGRESS (60%)
 - [x] News/Blog section structure
 - [x] Image optimization guide
@@ -154,11 +175,54 @@ bistro/
 **Issue:** [#1](https://github.com/kamil-gol/bistro/issues/1) 🟡 Open  
 **Guide:** [SPRINT1_GUIDE.md](SPRINT1_GUIDE.md)
 
-### 📅 Sprint 2: Analytics & Tracking - TODO
-**Issue:** [#2](https://github.com/kamil-gol/bistro/issues/2) ⏳ Pending
-
 ### 📅 Sprint 4: Progressive Web App - TODO
 **Issue:** [#4](https://github.com/kamil-gol/bistro/issues/4) ⏳ Pending
+
+## 📊 Google Analytics 4
+
+### Setup Instructions
+
+**Quick Setup:**
+1. Create GA4 account at https://analytics.google.com/
+2. Get your Measurement ID (format: `G-XXXXXXXXXX`)
+3. Open `analytics.js` and replace placeholder on line 9:
+   ```javascript
+   this.gaId = 'G-YOUR-REAL-ID'; // Replace G-XXXXXXXXXX
+   ```
+4. Save and deploy
+5. Accept cookies on site (Analytics)
+6. Check Console for: `✅ Google Analytics 4 loaded`
+7. Verify in GA4 Realtime (you should see 1 active user)
+
+**Complete Guide:** See [GA4_SETUP_GUIDE.md](GA4_SETUP_GUIDE.md)
+
+### Tracked Events (12+)
+
+**Conversion Events:**
+- `delivery_platform_click` - Uber Eats, Pyszne.pl clicks
+- `phone_click` - Phone number clicks
+- `cta_click` - All CTA button clicks
+
+**Engagement Events:**
+- `navigation_click` - Navigation menu interactions
+- `menu_tab_change` - Menu category changes
+- `scroll_depth` - 25%, 50%, 75%, 90%, 100%
+- `time_on_page` - 30s, 60s, 120s, 300s
+- `section_view` - Section viewport tracking
+- `social_click` - Social media link clicks
+
+**Privacy Events:**
+- `cookie_consent` - Accept/Decline/Settings
+- `page_exit` - Time spent before leaving
+
+### Key Features
+- ✅ GDPR compliant (loads only after consent)
+- ✅ Event queue (saves events before consent)
+- ✅ Anonymize IP enabled
+- ✅ Cookie Consent integration
+- ✅ Comprehensive tracking (12+ event types)
+- ✅ Custom dashboard ready
+- ✅ Conversion goals configured
 
 ## 🖼️ Images Guide
 
@@ -221,6 +285,7 @@ Fully responsive and optimized for:
 - WebP format with JPG fallback
 - Debounced scroll events
 - Nginx with Gzip compression
+- Async GA4 loading
 - Target: < 3s page load time
 
 ## ♿ Accessibility
@@ -232,7 +297,7 @@ Fully responsive and optimized for:
 - Color contrast compliance (WCAG AA)
 - Responsive text sizing
 
-## 📈 SEO Optimization
+## 🔍 SEO Optimization
 
 - Proper meta tags
 - Semantic HTML structure
@@ -240,6 +305,7 @@ Fully responsive and optimized for:
 - Fast loading times
 - Mobile-friendly design
 - Schema.org markup ready
+- GA4 for insights
 
 ## 🛠️ Development
 
@@ -305,17 +371,19 @@ Facebook: [Bistro Pętla](https://www.facebook.com/p/Bistro-Pętla-6155629935047
 
 - Google Fonts for typography
 - Material Design Icons for SVG icons
+- Google Analytics for insights
 - The Bistro Pętla team for their trust
 
 ## 📊 Project Timeline
 
-- **Feb 5, 2026:** Initial setup, Docker configuration
-- **Feb 5, 2026:** Sprint 3 completed (GDPR)
-- **Feb 5, 2026:** Sprint 1 started (Images & News) - 60% complete
-- **Target:** Sprint 1 completion in 1-2 weeks
+- **Feb 5, 2026, 20:00:** Initial setup, Docker configuration
+- **Feb 5, 2026, 21:00:** Sprint 3 completed (GDPR)
+- **Feb 5, 2026, 22:00:** Sprint 1 started (Images & News) - 60% complete
+- **Feb 5, 2026, 22:21:** Sprint 2 completed (Google Analytics 4) ✅
+- **Target:** Sprint 1 completion in 1-2 weeks (photo session needed)
 
 ---
 
 **Built with ❤️ and ☕ for Bistro Pętla**
 
-*Last updated: February 5, 2026, 22:00 CET*
+*Last updated: February 5, 2026, 22:21 CET*
