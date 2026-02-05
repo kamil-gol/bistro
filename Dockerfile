@@ -24,25 +24,14 @@ COPY script.js .
 COPY cookieconsent.js .
 COPY analytics.js .
 
-# Copy PWA files
-COPY pwa.js .
-COPY install-prompt.js .
-COPY service-worker.js .
-COPY offline.html .
-COPY manifest.json .
-
-# Copy icons directory (if exists)
-COPY icons ./icons
-
 # Copy documentation (optional, for reference)
 COPY README.md .
-COPY PWA_GUIDE.md .
 
 # Add metadata
 LABEL maintainer="Bistro Pętla <kamilgolebiowski@10g.pl>"
-LABEL description="Progressive Web App for Bistro Pętla - Chorzów"
-LABEL version="2.0.0"
-LABEL features="PWA, Analytics, GDPR, News"
+LABEL description="Website for Bistro Pętla - Chorzów"
+LABEL version="2.1.0"
+LABEL features="Analytics, GDPR, News"
 
 # Expose port 80
 EXPOSE 80
