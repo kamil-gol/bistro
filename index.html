@@ -89,13 +89,574 @@
         </div>
     </section>
 
-    <!-- Rest of the content remains the same... skipping for brevity -->
-    <!-- About, Menu, Gallery, Order, Contact sections remain unchanged -->
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">O Nas</span>
+                <h2 class="section-title">Poznaj Bistro Pętla</h2>
+                <p class="section-subtitle">Pasja do gotowania, tradycyjne receptury i świeże składniki - to nasza recepta na wyjątkowe smaki</p>
+            </div>
+            
+            <div class="about-text">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2">
+                            <path d="M12 2v20M2 12h20"/>
+                            <circle cx="12" cy="12" r="10"/>
+                        </svg>
+                    </div>
+                    <h3>Świeże Składniki</h3>
+                    <p>Codziennie wybieramy najlepsze, lokalne produkty od zaufanych dostawców. Jakość to nasz priorytet.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2">
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                    </div>
+                    <h3>Domowa Atmosfera</h3>
+                    <p>U nas poczujesz się jak w domu. Ciepła obsługa i przytulne wnętrze sprawiają, że wracasz do nas z przyjemnością.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                    </div>
+                    <h3>Tradycyjne Receptury</h3>
+                    <p>Nasze dania powstają według sprawdzonych, tradycyjnych receptur przekazywanych z pokolenia na pokolenie.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2">
+                            <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3>Szybka Obsługa</h3>
+                    <p>Szanujemy Twój czas. Dbamy o to, aby każde zamówienie było realizowane sprawnie i profesjonalnie.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Footer remains unchanged -->
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Menu</span>
+                <h2 class="section-title">Nasze Specjały</h2>
+                <p class="section-subtitle">Odkryj bogactwo smaków - od tradycyjnych polskich potraw po autorskie desery</p>
+            </div>
+            
+            <div class="menu-tabs">
+                <button class="tab-btn active" data-category="zupy">🍲 Zupy</button>
+                <button class="tab-btn" data-category="glowne">🍽️ Dania Główne</button>
+                <button class="tab-btn" data-category="przystawki">🥗 Przystawki</button>
+                <button class="tab-btn" data-category="desery">🍰 Desery</button>
+                <button class="tab-btn" data-category="napoje">☕ Napoje</button>
+            </div>
+            
+            <!-- Zupy -->
+            <div class="menu-category active" data-category="zupy">
+                <div class="menu-grid">
+                    <div class="menu-item featured">
+                        <span class="menu-badge">Bestseller</span>
+                        <div class="menu-item-header">
+                            <h3>Żurek z kiełbasą</h3>
+                            <span class="price">18 zł</span>
+                        </div>
+                        <p class="menu-description">Tradycyjny żurek na zakwasie z kiełbasą, jajkiem i ziemniakami. Podawany w chlebie.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(127 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item featured">
+                        <span class="menu-badge">Bestseller</span>
+                        <div class="menu-item-header">
+                            <h3>Pomidorowa z makaronem</h3>
+                            <span class="price">14 zł</span>
+                        </div>
+                        <p class="menu-description">Klasyczna pomidorowa z domowym makaronem, śmietaną i świeżą bazylią.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(98 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Rosół z makaronem</h3>
+                            <span class="price">16 zł</span>
+                        </div>
+                        <p class="menu-description">Aromatyczny rosół z kurczaka z domowym makaronem i warzywami.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(85 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Pomidorowa z ryżem</h3>
+                            <span class="price">14 zł</span>
+                        </div>
+                        <p class="menu-description">Kremowa pomidorowa z ryżem, śmietaną i świeżymi ziołami.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐ <span class="rating-count">(67 opinii)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dania Główne -->
+            <div class="menu-category" data-category="glowne">
+                <div class="menu-grid">
+                    <div class="menu-item featured">
+                        <span class="menu-badge">Bestseller</span>
+                        <div class="menu-item-header">
+                            <h3>Schabowy z ziemniakami</h3>
+                            <span class="price">32 zł</span>
+                        </div>
+                        <p class="menu-description">Klasyczny polski schabowy panierowany, ziemniaki, surówka z kapusty.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(156 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Pierogi ruskie</h3>
+                            <span class="price">24 zł</span>
+                        </div>
+                        <p class="menu-description">Domowe pierogi z ziemniakami i serem, podawane ze skwarkami i cebulką.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(143 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Gulasz wołowy</h3>
+                            <span class="price">36 zł</span>
+                        </div>
+                        <p class="menu-description">Delikatny gulasz z wołowiny w sosie własnym z kluskami śląskimi.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(89 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Filet z kurczaka</h3>
+                            <span class="price">28 zł</span>
+                        </div>
+                        <p class="menu-description">Grillowany filet z kurczaka, frytki, sos czosnkowy, surówka.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐ <span class="rating-count">(72 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>De volaille</h3>
+                            <span class="price">34 zł</span>
+                        </div>
+                        <p class="menu-description">Roladki z kurczaka faszerowane masłem i ziołami, ziemniaki, warzywa.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(94 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Łosoś z grilla</h3>
+                            <span class="price">42 zł</span>
+                        </div>
+                        <p class="menu-description">Filet z łososia grillowany, puree ziemniaczane, szparagi, sos cytrynowy.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(68 opinii)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Przystawki -->
+            <div class="menu-category" data-category="przystawki">
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Tatar wołowy</h3>
+                            <span class="price">28 zł</span>
+                        </div>
+                        <p class="menu-description">Klasyczny tatar z wołowiny z dodatkami, tostami i ogórkiem kiszonym.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(54 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Śledź w oleju</h3>
+                            <span class="price">18 zł</span>
+                        </div>
+                        <p class="menu-description">Marynowany śledź z cebulką, podawany z chlebem i masłem.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐ <span class="rating-count">(41 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Sałatka grecka</h3>
+                            <span class="price">22 zł</span>
+                        </div>
+                        <p class="menu-description">Świeże warzywa, ser feta, oliwki, oliwa z oliwek, oregano.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(76 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Krążki cebulowe</h3>
+                            <span class="price">16 zł</span>
+                        </div>
+                        <p class="menu-description">Chrupiące krążki cebulowe w panierce, sos czosnkowy.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐ <span class="rating-count">(63 opinii)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Desery -->
+            <div class="menu-category" data-category="desery">
+                <div class="menu-grid">
+                    <div class="menu-item featured">
+                        <span class="menu-badge">Hit!</span>
+                        <div class="menu-item-header">
+                            <h3>Sernik nowojorski</h3>
+                            <span class="price">18 zł</span>
+                        </div>
+                        <p class="menu-description">Kremowy sernik na zimno z polewą z owoców leśnych.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(132 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Szarlotka z lodami</h3>
+                            <span class="price">16 zł</span>
+                        </div>
+                        <p class="menu-description">Domowa szarlotka, lody waniliowe, bita śmietana.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(98 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Tiramisu</h3>
+                            <span class="price">20 zł</span>
+                        </div>
+                        <p class="menu-description">Klasyczne włoskie tiramisu z mascarpone i kawą.</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(87 opinii)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item featured">
+                        <span class="menu-badge">Lody własne</span>
+                        <div class="menu-item-header">
+                            <h3>Lody rzemieślnicze</h3>
+                            <span class="price">12 zł</span>
+                        </div>
+                        <p class="menu-description">Nasze domowe lody w różnych smakach (3 gałki). Pytaj o aktualne smaki!</p>
+                        <div class="menu-rating">
+                            ⭐⭐⭐⭐⭐ <span class="rating-count">(165 opinii)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Napoje -->
+            <div class="menu-category" data-category="napoje">
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Kawa espresso</h3>
+                            <span class="price">8 zł</span>
+                        </div>
+                        <p class="menu-description">Aromatyczna kawa espresso z ziaren arabiki.</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Cappuccino</h3>
+                            <span class="price">12 zł</span>
+                        </div>
+                        <p class="menu-description">Klasyczne cappuccino z delikatną pianką mleczną.</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Herbata</h3>
+                            <span class="price">7 zł</span>
+                        </div>
+                        <p class="menu-description">Wybór herbat czarnych, zielonych i owocowych.</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Lemoniada domowa</h3>
+                            <span class="price">10 zł</span>
+                        </div>
+                        <p class="menu-description">Świeża lemoniada z cytryn i mięty.</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Soki świeżo wyciskane</h3>
+                            <span class="price">12 zł</span>
+                        </div>
+                        <p class="menu-description">Pomarańczowy, jabłkowy lub marchewkowy.</p>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h3>Smoothie</h3>
+                            <span class="price">14 zł</span>
+                        </div>
+                        <p class="menu-description">Zdrowe smoothie z sezonowych owoców.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-footer">
+                <p class="menu-note">* Ceny mogą ulec zmianie. Menu sezonowe dostępne zgodnie z dostępnością produktów.</p>
+            </div>
+        </div>
+    </section>
 
-    <!-- Cookie Consent remains unchanged -->
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Galeria</span>
+                <h2 class="section-title">Nasze Dania</h2>
+                <p class="section-subtitle">Zobacz, co przygotowujemy dla naszych gości</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="gallery-overlay">
+                        <h3>🍲 Zupy</h3>
+                        <p>Tradycyjne polskie zupy</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="gallery-overlay">
+                        <h3>🍽️ Dania Główne</h3>
+                        <p>Smakowite i pożywne</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="gallery-overlay">
+                        <h3>🍰 Desery</h3>
+                        <p>Słodkie zakończenie</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="gallery-overlay">
+                        <h3>🥗 Przystawki</h3>
+                        <p>Lekki początek</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="gallery-overlay">
+                        <h3>☕ Napoje</h3>
+                        <p>Kawa i więcej</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                    <div class="gallery-overlay">
+                        <h3>🍨 Lody</h3>
+                        <p>Rzemieślnicze lody</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-footer">
+                <p class="menu-note">* Wkrótce dodamy profesjonalne zdjęcia naszych dań</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- Order Section -->
+    <section id="order" class="order">
+        <div class="container">
+            <div class="order-content">
+                <h2>Zamów Online</h2>
+                <p>Zamawiaj wygodnie z domu lub biura. Dostawa prosto pod Twoje drzwi!</p>
+                
+                <div class="delivery-buttons">
+                    <a href="tel:+48123456789" class="delivery-btn uber">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        Zadzwoń: +48 123 456 789
+                    </a>
+                    
+                    <a href="https://www.pyszne.pl" target="_blank" rel="noopener" class="delivery-btn pyszne">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-12.5c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        Zamów przez Pyszne.pl
+                    </a>
+                </div>
+                
+                <div style="margin-top: 3rem; color: white; opacity: 0.9;">
+                    <h3 style="font-family: var(--font-primary); margin-bottom: 1rem;">Godziny Otwarcia</h3>
+                    <p>Poniedziałek - Piątek: 11:00 - 21:00</p>
+                    <p>Sobota - Niedziela: 12:00 - 22:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Kontakt</span>
+                <h2 class="section-title">Odwiedź Nas</h2>
+                <p class="section-subtitle">Zapraszamy do Bistro Pętla w sercu Chorzowa</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg width="50" height="50" fill="none" stroke="#d4af37" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <h3>Adres</h3>
+                        <p>ul. Odrodzenia 36<br>41-500 Chorzów</p>
+                        <a href="https://maps.google.com/?q=Bistro+Pętla+Chorzów" target="_blank" rel="noopener">Otwórz w mapach →</a>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg width="50" height="50" fill="none" stroke="#d4af37" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                        </div>
+                        <h3>Telefon</h3>
+                        <p><a href="tel:+48123456789">+48 123 456 789</a></p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Pon-Pt: 11:00-21:00<br>Sob-Nd: 12:00-22:00</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg width="50" height="50" fill="none" stroke="#d4af37" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h3>Email</h3>
+                        <p><a href="mailto:kontakt@bistropetla.pl">kontakt@bistropetla.pl</a></p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Odpowiadamy w 24h</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <svg width="50" height="50" fill="none" stroke="#d4af37" stroke-width="2" viewBox="0 0 24 24">
+                                <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3>Social Media</h3>
+                        <p style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                            <a href="https://facebook.com" target="_blank" rel="noopener" style="font-size: 1.5rem;">📘</a>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" style="font-size: 1.5rem;">📷</a>
+                        </p>
+                        <p style="font-size: 0.9rem; margin-top: 0.5rem;">Śledź nas online!</p>
+                    </div>
+                </div>
+                
+                <div class="contact-map">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2551.234567890123!2d18.9543!3d50.2943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDE3JzM5LjUiTiAxOMKwNTcnMTUuNSJF!5e0!3m2!1spl!2spl!4v1234567890123!5m2!1spl!2spl"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>Bistro Pętla</h3>
+                    <p>Wyjątkowe smaki w sercu Chorzowa. Tradycyjna polska kuchnia w nowoczesnym wydaniu.</p>
+                    <p style="margin-top: 1rem; opacity: 0.7;">ul. Odrodzenia 36, 41-500 Chorzów</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Menu</h4>
+                    <ul>
+                        <li><a href="#home">Start</a></li>
+                        <li><a href="#about">O Nas</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#gallery">Galeria</a></li>
+                        <li><a href="#contact">Kontakt</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Informacje</h4>
+                    <ul>
+                        <li><a href="privacy.html">Polityka Prywatności</a></li>
+                        <li><a href="news.html">Aktualności</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#order">Zamów Online</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>Kontakt</h4>
+                    <ul>
+                        <li>📞 <a href="tel:+48123456789" style="color: white; text-decoration: none;">+48 123 456 789</a></li>
+                        <li>✉️ <a href="mailto:kontakt@bistropetla.pl" style="color: white; text-decoration: none;">kontakt@bistropetla.pl</a></li>
+                        <li>🕒 Pon-Pt: 11:00-21:00</li>
+                        <li>🕒 Sob-Nd: 12:00-22:00</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bistro Pętla. Wszystkie prawa zastrzeżone. | Projekt i realizacja: Bistro Pętla</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script src="script.js"></script>
     <script src="cookieconsent.js"></script>
     <script src="analytics.js"></script>
