@@ -664,7 +664,7 @@ body {
 }
 
 .delivery-btn.uber-eats:hover {
-    background: #ff9933;
+    background: #05a356;
     transform: translateY(-3px);
     box-shadow: 0 8px 30px rgba(6, 193, 103, 0.5);
 }
