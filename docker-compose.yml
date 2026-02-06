@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Istniejąca strona statyczna
   bistro-web:
     build:
       context: .
@@ -14,10 +15,6 @@ services:
     networks:
       - bistro-network
     volumes:
-      # Optional: Mount for live development
-      # - ./index.html:/usr/share/nginx/html/index.html:ro
-      # - ./styles.css:/usr/share/nginx/html/styles.css:ro
-      # - ./script.js:/usr/share/nginx/html/script.js:ro
       - nginx-logs:/var/log/nginx
     labels:
       - "com.bistro.description=Bistro Pętla Website"
@@ -29,10 +26,89 @@ services:
       retries: 3
       start_period: 5s
 
+  # WordPress CMS
+  wordpress:
+    image: wordpress:6.4-php8.2-apache
+    container_name: bistro-wordpress
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_NAME: bistro_cms
+      WORDPRESS_DB_USER: bistro_user
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:-bistro_secure_password_2026}
+      WORDPRESS_TABLE_PREFIX: bp_
+      WORDPRESS_DEBUG: 0
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', 'http://localhost:8081');
+        define('WP_SITEURL', 'http://localhost:8081');
+        define('DISABLE_WP_CRON', true);
+        define('WP_MEMORY_LIMIT', '256M');
+    volumes:
+      - wordpress-data:/var/www/html
+      - ./wordpress/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    networks:
+      - bistro-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/wp-admin/install.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: bistro-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: bistro_cms
+      MYSQL_USER: bistro_user
+      MYSQL_PASSWORD: ${WP_DB_PASSWORD:-bistro_secure_password_2026}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_secure_password_2026}
+      TZ: Europe/Warsaw
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+    networks:
+      - bistro-network
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # phpMyAdmin (opcjonalne - do zarządzania bazą)
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: bistro-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: bistro_user
+      PMA_PASSWORD: ${WP_DB_PASSWORD:-bistro_secure_password_2026}
+      UPLOAD_LIMIT: 64M
+    networks:
+      - bistro-network
+    depends_on:
+      - mysql
+
 networks:
   bistro-network:
     driver: bridge
 
 volumes:
   nginx-logs:
+    driver: local
+  wordpress-data:
+    driver: local
+  mysql-data:
     driver: local
