@@ -1,0 +1,46 @@
+# Environment variables
+.env
+
+# Docker volumes
+wordpress-data/
+mysql-data/
+
+# Logs
+*.log
+logs/
+nginx-logs/
+
+# WordPress
+wp-config.php
+.htaccess
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/backups/
+wp-content/blogs.dir/
+
+# Backup files
+*.sql
+*.sql.gz
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (if using)
+node_modules/
+package-lock.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
